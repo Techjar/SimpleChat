@@ -31,8 +31,9 @@ public class Main {
                 client.start();
             }
             catch(NumberFormatException e) {
-                System.out.println("The port must be a number.");
-                System.exit(0);
+                System.out.println("Invalid port number, using port 6000.");
+                Client client = new Client(args[1], 6000, args[3]);
+                client.start();
             }
         }
         else if(args[0].equalsIgnoreCase("server")) {
@@ -45,8 +46,9 @@ public class Main {
                 server.start();
             }
             catch(NumberFormatException e) {
-                System.out.println("The port must be a number.");
-                System.exit(0);
+                System.out.println("Invalid port number, using port 6000.");
+                Server server = new Server(6000);
+                server.start();
             }
         }
         else {

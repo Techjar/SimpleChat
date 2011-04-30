@@ -12,12 +12,13 @@
 
 package com.simplechat.server;
 
-import java.net.ServerSocket;
-import java.io.IOException;
-import com.simplechat.protocol.*;
+import java.net.*;
+import java.util.List;
+import com.simplechat.protocol.Packet.*;
 
 public class ServerListenerThread extends Thread {
     private int port;
+    private List clients = null;
 
 
     public ServerListenerThread(int port) {
@@ -26,28 +27,33 @@ public class ServerListenerThread extends Thread {
 
     @Override
     public void run() {
-        ServerSocket serverSocket = null;
-        boolean listen = true;
-
+        Runtime.getRuntime().addShutdownHook(new ServerShutdownThread(getClients()));
+        DatagramSocket socket = null;
         try {
-            serverSocket = new ServerSocket(port);
-            System.out.println("Listener started on port " + port + ".");
-            System.out.println("Now accepting connections from clients.");
+            socket = new DatagramSocket(port);
         }
-        catch (IOException e) {
+        catch(SocketException e) {
             System.err.println("Could not start listener on port " + port + ".");
             System.exit(0);
         }
 
-        try {
-            while(listen) {
-                
+        System.out.println("Listener started on port " + port + ". Now accepting packets.");
+        while(true) {
+            try {
+                byte[] buffer = new byte[512];
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+                socket.receive(packet);
+                PacketHandlerThread pht = new PacketHandlerThread(packet, getClients());
+                pht.start();
             }
-            serverSocket.close();
+            catch (Throwable e) {
+                System.err.println("An unknown error occured in the packet acceptor. Program will continue...");
+                e.printStackTrace();
+            }
         }
-        catch (IOException e) {
-            System.err.println("Could not accept client connections.");
-            System.exit(0);
-        }
+    }
+
+    private List getClients() {
+        return clients;
     }
 }

@@ -1,4 +1,5 @@
 @echo off
+title SimpleChat Client
 :ip
 set /P IP=Enter IP: %=%
 if "%IP%"=="" goto ip

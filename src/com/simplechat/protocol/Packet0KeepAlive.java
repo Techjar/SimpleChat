@@ -12,24 +12,16 @@
 
 package com.simplechat.protocol;
 
-public class Packet {
+public class Packet0KeepAlive extends Packet {
     private byte[] data = new byte[512];
     private PacketType type;
+    
 
-
-    public Packet() {
+    public Packet0KeepAlive() {
         int i = 0;
-        this.data[i++] = (byte)-1;
+        this.data[i++] = (byte)0;
         this.data[i++] = (byte)'S';
         this.data[i++] = (byte)'C';
-        this.type = PacketType.UNKNOWN;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public PacketType getType() {
-        return this.type;
+        this.type = PacketType.KEEP_ALIVE;
     }
 }
