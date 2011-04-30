@@ -14,7 +14,8 @@ package com.simplechat.server;
 
 import java.net.*;
 import java.util.List;
-import com.simplechat.protocol.Packet.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class ServerListenerThread extends Thread {
     private int port;
@@ -43,8 +44,7 @@ public class ServerListenerThread extends Thread {
                 byte[] buffer = new byte[512];
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
-                PacketHandlerThread pht = new PacketHandlerThread(packet, getClients());
-                pht.start();
+                new PacketHandlerThread(packet, getClients()).start();
             }
             catch (Throwable e) {
                 System.err.println("An unknown error occured in the packet acceptor. Program will continue...");
