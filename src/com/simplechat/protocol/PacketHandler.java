@@ -6,23 +6,20 @@
 /**
  * @date Apr 29, 2011
  * @author Techjar
- * @version 
+ * @version
  */
 
 
-package com.simplechat.server;
+package com.simplechat.protocol;
 
 import java.net.*;
 import java.io.*;
 import java.util.List;
-import com.simplechat.protocol.Packet;
-import com.simplechat.protocol.PacketType;
-import com.simplechat.protocol.ClientData;
 
 public class PacketHandler {
     public PacketHandler() {
     }
-    
+
     public void sendPacket(Packet packet, ClientData client) {
         try {
             if(client.getActiveState()) {
@@ -92,6 +89,7 @@ public class PacketHandler {
             case 2: return PacketType.LEAVE;
             case 3: return PacketType.CHAT;
             case 4: return PacketType.KICK;
+            case 5: return PacketType.MESSAGE;
             default: return PacketType.UNKNOWN;
         }
     }
