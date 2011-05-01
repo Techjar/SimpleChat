@@ -46,19 +46,32 @@ public class PacketHandlerThread extends Thread {
                 System.exit(0);
             }
             else if(type == PacketType.MESSAGE) {
-                Packet5Message packet2 = new Packet5Message(data);
                 String[] split = this.name.getName().split("");
                 String space = "";
                 for(int i = 0; i < split.length; i++) space += " ";
-                cr.printString(ConsoleReader.RESET_LINE + packet2.msg + space + "\n");
-                cr.flushConsole();
                 try {
-                    cr.drawLine();
+                    Packet5Message packet2 = new Packet5Message(data);
+                    cr.printString(ConsoleReader.RESET_LINE + packet2.msg + space + "\n");
+                    cr.flushConsole();
+                    try {
+                        cr.drawLine();
+                    }
+                    catch (Throwable e) {
+                        cr.getCursorBuffer().clearBuffer();
+                    }
+                    cr.flushConsole();
                 }
-                catch (Throwable e) {
-                    cr.getCursorBuffer().clearBuffer();
+                catch(StringIndexOutOfBoundsException e) {
+                    cr.printString(ConsoleReader.RESET_LINE + "Error: Recieved message was too large." + space + "\n");
+                    cr.flushConsole();
+                    try {
+                        cr.drawLine();
+                    }
+                    catch (Throwable e2) {
+                        cr.getCursorBuffer().clearBuffer();
+                    }
+                    cr.flushConsole();
                 }
-                cr.flushConsole();
             }
             else if(type == PacketType.NAME_CHANGE) {
                 Packet6NameChange packet2 = new Packet6NameChange(data);
