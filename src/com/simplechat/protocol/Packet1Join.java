@@ -36,4 +36,14 @@ public class Packet1Join extends Packet {
         this.type = PacketType.JOIN;
         this.name = new String(data, 4, data[3]);
     }
+
+    @Override
+    public byte[] getData() {
+        return this.data;
+    }
+
+    @Override
+    public PacketType getType() {
+        return this.type;
+    }
 }

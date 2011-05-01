@@ -26,7 +26,7 @@ public class Packet {
     }
 
     public byte[] getData() {
-        return data;
+        return this.data;
     }
 
     public PacketType getType() {

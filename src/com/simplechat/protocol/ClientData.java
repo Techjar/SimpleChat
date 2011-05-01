@@ -12,8 +12,10 @@
 
 package com.simplechat.protocol;
 
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.List;
+import java.util.ArrayList;
 import com.simplechat.server.ClientKeepAliveThread;
 
 public class ClientData {
@@ -22,12 +24,15 @@ public class ClientData {
     private int port;
     private boolean activeState;
     private ClientKeepAliveThread keepAlive;
+    private DatagramSocket socket;
 
-    public ClientData(String name, InetAddress ip, int port, boolean activeState) {
+    public ClientData(String name, InetAddress ip, int port, boolean activeState, DatagramSocket socket) {
         this.name = name;
         this.ip = ip;
         this.port = port;
         this.activeState = activeState;
+        this.keepAlive = new ClientKeepAliveThread(this.name, this, new ArrayList(), this.socket);
+        this.socket = socket;
     }
 
     public String getUsername() {
@@ -64,7 +69,11 @@ public class ClientData {
 
     public void startKeepAliveThread(List clients) {
         if(keepAlive.isAlive()) keepAlive.interrupt();
-        this.keepAlive = new ClientKeepAliveThread(this.name, this, clients);
+        this.keepAlive = new ClientKeepAliveThread(this.name, this, clients, this.socket);
         keepAlive.start();
+    }
+
+    public void stopKeepAliveThread() {
+        if(keepAlive.isAlive()) keepAlive.interrupt();
     }
 }

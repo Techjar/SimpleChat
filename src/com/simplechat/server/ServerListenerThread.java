@@ -29,10 +29,9 @@ public class ServerListenerThread extends Thread {
 
     @Override
     public void run() {
-        Runtime.getRuntime().addShutdownHook(new ServerShutdownThread(getClients()));
         DatagramSocket socket = null;
         try {
-            socket = new DatagramSocket(port, InetAddress.getByName("0.0.0.0"));
+            socket = new DatagramSocket(port);
         }
         catch(IllegalArgumentException e) {
             System.out.println("Invalid port number, please restart specify a valid one.");
@@ -42,18 +41,15 @@ public class ServerListenerThread extends Thread {
             System.err.println("Could not start listener on port " + port + ".");
             System.exit(0);
         }
-        catch(UnknownHostException e) {
-            System.err.println("The wildcard host was invalid, so you're screwed.");
-            System.exit(0);
-        }
 
         System.out.println("Listener started on port " + port + ". Now accepting packets.");
+        Runtime.getRuntime().addShutdownHook(new ServerShutdownThread(getClients(), socket));
         while(true) {
             try {
                 byte[] buffer = new byte[512];
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
-                new PacketHandlerThread(packet, getClients()).start();
+                new PacketHandlerThread(packet, getClients(), socket).start();
             }
             catch (Throwable e) {
                 System.err.println("An unknown error occured in the packet acceptor. Program will continue...");

@@ -42,4 +42,14 @@ public class Packet3Chat extends Packet {
         this.name = new String(data, 4, data[3]);
         this.msg = new String(data, 5+data[3], data[4+data[3]]);
     }
+
+    @Override
+    public byte[] getData() {
+        return this.data;
+    }
+
+    @Override
+    public PacketType getType() {
+        return this.type;
+    }
 }

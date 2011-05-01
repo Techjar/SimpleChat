@@ -12,22 +12,24 @@
 
 package com.simplechat.server;
 
-import java.net.*;
+import java.net.DatagramSocket;
 import java.util.List;
 import com.simplechat.protocol.*;
 
 public class ServerShutdownThread extends Thread {
     private List clients;
+    private DatagramSocket socket;
 
 
-    public ServerShutdownThread(List clients) {
+    public ServerShutdownThread(List clients, DatagramSocket socket) {
         this.clients = clients;
+        this.socket = socket;
     }
 
     @Override
     public void run() {
         PacketHandler ph = new PacketHandler();
         Packet4Kick packet = new Packet4Kick("Server shutting down.");
-        ph.sendAllPacket(packet, clients);
+        ph.sendAllPacket(packet, clients, this.socket);
     }
 }

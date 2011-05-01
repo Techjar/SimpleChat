@@ -20,17 +20,15 @@ public class PacketHandler {
     public PacketHandler() {
     }
 
-    public void sendPacket(Packet packet, ClientData client) {
+    public void sendPacket(Packet packet, ClientData client, DatagramSocket socket) {
         try {
             if(client.getActiveState()) {
-                DatagramSocket socket = new DatagramSocket();
                 DatagramPacket dpacket = new DatagramPacket(packet.getData(), packet.getData().length, client.getIP(), client.getPort());
                 socket.send(dpacket);
-                socket.close();
             }
         }
         catch (SocketException e) {
-            System.err.println("Can't open DatagramSocket to send packet.");
+            System.err.println("Can't send packet through socket.");
             e.printStackTrace();
         }
         catch (IOException e) {
@@ -39,20 +37,18 @@ public class PacketHandler {
         }
     }
 
-    public void sendAllPacket(Packet packet, List clients) {
+    public void sendAllPacket(Packet packet, List clients, DatagramSocket socket) {
         try {
             for(int i = 0; i < clients.size(); i++) {
                 ClientData client = (ClientData)clients.get(i);
                 if(client.getActiveState()) {
-                    DatagramSocket socket = new DatagramSocket();
                     DatagramPacket dpacket = new DatagramPacket(packet.getData(), packet.getData().length, client.getIP(), client.getPort());
                     socket.send(dpacket);
-                    socket.close();
                 }
             }
         }
         catch (SocketException e) {
-            System.err.println("Can't open DatagramSocket to send packet.");
+            System.err.println("Can't send packet through socket.");
             e.printStackTrace();
         }
         catch (IOException e) {
@@ -61,20 +57,18 @@ public class PacketHandler {
         }
     }
 
-    public void sendAllExcludePacket(Packet packet, List clients, ClientData exclude) {
+    public void sendAllExcludePacket(Packet packet, List clients, ClientData exclude, DatagramSocket socket) {
         try {
             for(int i = 0; i < clients.size(); i++) {
                 ClientData client = (ClientData)clients.get(i);
                 if(client.getActiveState() && client != exclude) {
-                    DatagramSocket socket = new DatagramSocket();
                     DatagramPacket dpacket = new DatagramPacket(packet.getData(), packet.getData().length, client.getIP(), client.getPort());
                     socket.send(dpacket);
-                    socket.close();
                 }
             }
         }
         catch (SocketException e) {
-            System.err.println("Can't open DatagramSocket to send packet.");
+            System.err.println("Can't send packet through socket.");
             e.printStackTrace();
         }
         catch (IOException e) {
@@ -83,15 +77,13 @@ public class PacketHandler {
         }
     }
 
-    public void sendClientPacket(Packet packet, InetAddress ip, int port) {
+    public void sendClientPacket(Packet packet, InetAddress ip, int port, DatagramSocket socket) {
         try {
-            DatagramSocket socket = new DatagramSocket();
             DatagramPacket dpacket = new DatagramPacket(packet.getData(), packet.getData().length, ip, port);
             socket.send(dpacket);
-            socket.close();
         }
         catch (SocketException e) {
-            System.err.println("Can't open DatagramSocket to send packet.");
+            System.err.println("Can't send packet through socket.");
             e.printStackTrace();
         }
         catch (IOException e) {

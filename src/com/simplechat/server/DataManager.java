@@ -14,11 +14,12 @@ package com.simplechat.server;
 
 import java.io.*;
 import java.util.List;
+import java.util.ArrayList;
 
 public class DataManager {
-    private List ops;
-    private List bans;
-    private List ipbans;
+    private List ops = new ArrayList();
+    private List bans = new ArrayList();
+    private List ipbans = new ArrayList();
 
 
     public DataManager() {
