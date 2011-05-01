@@ -76,6 +76,26 @@ public class CommandHandler {
             Packet5Message packet = new Packet5Message("Pong!");
             ph.sendPacket(packet, client, this.socket);
         }
+        else if(cmd.equalsIgnoreCase("whois")) {
+            if(args.length < 1) {
+                Packet5Message packet = new Packet5Message("Not enough paramters.");
+                ph.sendPacket(packet, client, this.socket);
+            }
+            else {
+                ClientData client2 = findClient(args[0]);
+                if(client2 != null) {
+                    String msg = "IP: " + client2.getIP().getHostAddress() + "\n";
+                    msg += "Port: " + client2.getPort() + "\n";
+                    msg += "Hostname: " + client2.getIP().getCanonicalHostName();
+                    Packet5Message packet = new Packet5Message(msg);
+                    ph.sendPacket(packet, client, this.socket);
+                }
+                else {
+                    Packet5Message packet = new Packet5Message("User not found.");
+                    ph.sendPacket(packet, client, this.socket);
+                }
+            }
+        }
         else if(cmd.equalsIgnoreCase("list")) {
             String msg = "Online Users: ";
             for(int i = 0; i < clients.size(); i++) {
