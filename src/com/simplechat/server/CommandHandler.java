@@ -77,13 +77,14 @@ public class CommandHandler {
             ph.sendPacket(packet, client, this.socket);
         }
         else if(cmd.equalsIgnoreCase("list")) {
-            Packet5Message packet = new Packet5Message("Online Users:");
-            ph.sendPacket(packet, client, this.socket);
+            String msg = "Online Users: ";
             for(int i = 0; i < clients.size(); i++) {
                 ClientData client2 = (ClientData)clients.get(i);
-                packet = new Packet5Message(client2.getUsername());
-                ph.sendPacket(packet, client, this.socket);
+                msg += client2.getUsername() + ", ";
             }
+
+            Packet5Message packet = new Packet5Message(msg.substring(0, msg.length() - 2).trim());
+            ph.sendPacket(packet, client, this.socket);
         }
         else if(cmd.equalsIgnoreCase("me")) {
             String msg = "";
