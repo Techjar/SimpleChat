@@ -19,5 +19,6 @@ public enum PacketType {
     CHAT,
     KICK,
     MESSAGE,
+    NAME_CHANGE,
     UNKNOWN
 }

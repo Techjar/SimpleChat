@@ -12,7 +12,6 @@
 
 package com.simplechat.server;
 
-import java.net.InetAddress;
 import java.util.List;
 import com.simplechat.protocol.*;
 

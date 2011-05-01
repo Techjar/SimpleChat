@@ -32,7 +32,6 @@ public class PacketHandler {
         catch (SocketException e) {
             System.err.println("Can't open DatagramSocket to send packet.");
             e.printStackTrace();
-            System.exit(1);
         }
         catch (IOException e) {
             System.err.println("An unknown I/O error occurred.");
@@ -42,9 +41,8 @@ public class PacketHandler {
 
     public void sendAllPacket(Packet packet, List clients) {
         try {
-            Object[] cl = clients.toArray();
-            for(int i = 0; i < cl.length; i++) {
-                ClientData client = (ClientData)cl[i];
+            for(int i = 0; i < clients.size(); i++) {
+                ClientData client = (ClientData)clients.get(i);
                 if(client.getActiveState()) {
                     DatagramSocket socket = new DatagramSocket();
                     DatagramPacket dpacket = new DatagramPacket(packet.getData(), packet.getData().length, client.getIP(), client.getPort());
@@ -56,7 +54,28 @@ public class PacketHandler {
         catch (SocketException e) {
             System.err.println("Can't open DatagramSocket to send packet.");
             e.printStackTrace();
-            System.exit(1);
+        }
+        catch (IOException e) {
+            System.err.println("An unknown I/O error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public void sendAllExcludePacket(Packet packet, List clients, ClientData exclude) {
+        try {
+            for(int i = 0; i < clients.size(); i++) {
+                ClientData client = (ClientData)clients.get(i);
+                if(client.getActiveState() && client != exclude) {
+                    DatagramSocket socket = new DatagramSocket();
+                    DatagramPacket dpacket = new DatagramPacket(packet.getData(), packet.getData().length, client.getIP(), client.getPort());
+                    socket.send(dpacket);
+                    socket.close();
+                }
+            }
+        }
+        catch (SocketException e) {
+            System.err.println("Can't open DatagramSocket to send packet.");
+            e.printStackTrace();
         }
         catch (IOException e) {
             System.err.println("An unknown I/O error occurred.");
@@ -74,7 +93,6 @@ public class PacketHandler {
         catch (SocketException e) {
             System.err.println("Can't open DatagramSocket to send packet.");
             e.printStackTrace();
-            System.exit(1);
         }
         catch (IOException e) {
             System.err.println("An unknown I/O error occurred.");
@@ -90,6 +108,7 @@ public class PacketHandler {
             case 3: return PacketType.CHAT;
             case 4: return PacketType.KICK;
             case 5: return PacketType.MESSAGE;
+            case 6: return PacketType.NAME_CHANGE;
             default: return PacketType.UNKNOWN;
         }
     }

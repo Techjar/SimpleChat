@@ -15,13 +15,13 @@ package com.simplechat.client;
 public class Client {
     String ip;
     int port;
-    String name;
+    NameData name;
 
 
     public Client(String ip, int port, String name) {
         this.ip = ip;
         this.port = port;
-        this.name = name;
+        this.name = new NameData(name);
     }
 
     public void start() {

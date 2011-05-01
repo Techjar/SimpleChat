@@ -34,16 +34,32 @@ public class ClientData {
         return name;
     }
 
+    public void setUsername(String name) {
+        this.name = name;
+    }
+
     public InetAddress getIP() {
         return ip;
+    }
+
+    public void setIP(InetAddress ip) {
+        this.ip = ip;
     }
 
     public int getPort() {
         return port;
     }
 
+    public void setPort(int port) {
+        this.port = port;
+    }
+
     public boolean getActiveState() {
         return activeState;
+    }
+
+    public void setActiveState(boolean activeState) {
+        this.activeState = activeState;
     }
 
     public void startKeepAliveThread(List clients) {
