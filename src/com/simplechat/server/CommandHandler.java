@@ -83,7 +83,7 @@ public class CommandHandler {
                 msg += client2.getUsername() + ", ";
             }
 
-            Packet5Message packet = new Packet5Message(msg.substring(0, msg.length() - 2).trim());
+            Packet5Message packet = new Packet5Message(msg.substring(0, Math.min(msg.length() - 2, 500)));
             ph.sendPacket(packet, client, this.socket);
         }
         else if(cmd.equalsIgnoreCase("me")) {
