@@ -51,7 +51,7 @@ public class Client {
             new ClientKeepAliveThread(this.server, this.name).start();
             new ConsoleInputThread(this.server, this.name, cr).start();
             new PacketRecieverThread(this.server, this.name, cr).start();
-            Runtime.getRuntime().addShutdownHook(new ClientShutdownThread(this.server, this.name));
+            //Runtime.getRuntime().addShutdownHook(new ClientShutdownThread(this.server, this.name)); // This doesn't ever seem to get called.
         }
         catch(ArrayIndexOutOfBoundsException e) {
             System.out.println("Error: Name too long.");

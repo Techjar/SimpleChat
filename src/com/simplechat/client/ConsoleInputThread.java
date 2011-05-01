@@ -48,7 +48,7 @@ public class ConsoleInputThread extends Thread{
             }
         }
         catch(IOException e) {
-            System.err.println("ColsoleInputThread failed, program will terminate.");
+            System.err.println("ConsoleInputThread failed, program will terminate.");
             System.exit(0);
         }
     }

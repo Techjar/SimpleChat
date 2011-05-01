@@ -72,6 +72,19 @@ public class CommandHandler {
                 ph.sendPacket(packet, client, this.socket);
             }
         }
+        else if(cmd.equalsIgnoreCase("ping")) {
+            Packet5Message packet = new Packet5Message("Pong!");
+            ph.sendPacket(packet, client, this.socket);
+        }
+        else if(cmd.equalsIgnoreCase("list")) {
+            Packet5Message packet = new Packet5Message("Online Users:");
+            ph.sendPacket(packet, client, this.socket);
+            for(int i = 0; i < clients.size(); i++) {
+                ClientData client2 = (ClientData)clients.get(i);
+                packet = new Packet5Message(client2.getUsername());
+                ph.sendPacket(packet, client, this.socket);
+            }
+        }
         else if(cmd.equalsIgnoreCase("me")) {
             String msg = "";
             for(int i = 0; i < args.length; i++) msg += args[i] + " ";
