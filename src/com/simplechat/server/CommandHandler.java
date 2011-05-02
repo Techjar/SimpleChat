@@ -34,8 +34,27 @@ public class CommandHandler {
     public void parseCommand(String cmd, String[] args) {
         PacketHandler ph = new PacketHandler();
         DataManager dm = new DataManager();
-        
-        if(cmd.equalsIgnoreCase("quit")) {
+
+        if(cmd.equalsIgnoreCase("help")) {
+            ph.sendPacket(new Packet5Message("/quit [message] - Disconnects you from the server."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/stop - Stops the server. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/say <message> - Broadcasts a server message."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/ping - Ping! Pong!"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/kill <name> - Kills a user."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/nuke - NUKE THE CHAT!!!!! (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/whois <name> - Gets information on a user."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/list - Lists users in the chat."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/me <message> - Makes you do an action."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/nick <name> - Changes your name!"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/op <name> - Ops a user."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/deop <name> - De-ops a user."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/kick <name> - Kicks a user."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/ban <name> - Bans a user."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/unban <name> - Unbans a user."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/banip <ip> - Bans an IP."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/unbanip <ip> - Unbans an IP."), client, this.socket);
+        }
+        else if(cmd.equalsIgnoreCase("quit")) {
             String msg = "";
             for(int i = 0; i < args.length; i++) msg += args[i] + " ";
             msg = msg.trim();
@@ -45,6 +64,7 @@ public class CommandHandler {
             Packet5Message packet2 = new Packet5Message(client.getUsername() + " quit. (" + msg + ")");
             ph.sendPacket(packet, client, this.socket);
             client.stopKeepAliveThread();
+            client.stopKeepAliveSendThread();
             clients.remove(client);
             ph.sendAllPacket(packet2, clients, this.socket);
         }
@@ -87,6 +107,7 @@ public class CommandHandler {
                 ph.sendAllExcludePacket(packet, clients, client, this.socket);
                 ph.sendPacket(packet2, client, this.socket);
                 client.stopKeepAliveThread();
+                client.stopKeepAliveSendThread();
                 clients.remove(client);
             }
         }
@@ -100,7 +121,7 @@ public class CommandHandler {
                     System.out.println("Nuke started!");
                     Packet5Message packet = new Packet5Message("IT'S NUKE TIME OH BOY!!!!!");
                     ph.sendAllPacket(packet, clients, this.socket);
-                    packet = new Packet5Message("NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE");
+                    packet = new Packet5Message("NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE");
                     for(int i = 0; i < 1000; i++) {
                         if((i % 100) == 0) System.out.println("Packets left: " + (1000 - i));
                         ph.sendAllPacket(packet, clients, this.socket);
@@ -265,6 +286,7 @@ public class CommandHandler {
                     ClientData client2 = findClient(args[0]);
                     ph.sendPacket(packet2, client2, this.socket);
                     client2.stopKeepAliveThread();
+                    client2.stopKeepAliveSendThread();
                     clients.remove(client2);
                     ph.sendAllPacket(packet, clients, this.socket);
                 }
@@ -301,6 +323,7 @@ public class CommandHandler {
                     if(client2 != null) {
                         ph.sendPacket(packet2, client2, this.socket);
                         client2.stopKeepAliveThread();
+                        client2.stopKeepAliveSendThread();
                         clients.remove(client2);
                     }
                     ph.sendAllPacket(packet, clients, this.socket);
@@ -377,6 +400,7 @@ public class CommandHandler {
                         if(client2 != null) {
                             ph.sendPacket(packet2, client2, this.socket);
                             client2.stopKeepAliveThread();
+                            client2.stopKeepAliveSendThread();
                             clients.remove(client2);
                         }
                         ph.sendAllPacket(packet, clients, this.socket);

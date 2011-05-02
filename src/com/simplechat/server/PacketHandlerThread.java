@@ -57,16 +57,28 @@ public class PacketHandlerThread extends Thread {
             }
             else {
                 newClient.startKeepAliveThread(clients);
+                newClient.startKeepAliveSendThread();
                 clients.add(newClient);
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") has joined the chat.");
-                Packet5Message packet3 = new Packet5Message(packet2.name + " has joined the chat.");
-                ph.sendAllPacket(packet3, clients, this.socket);
+                Packet7Handshake packet3 = new Packet7Handshake();
+                ph.sendPacket(packet3, newClient, socket);
+                Packet5Message packet4 = new Packet5Message(packet2.name + " has joined the chat.");
+                ph.sendAllExcludePacket(packet4, clients, newClient, this.socket);
+                try {
+                    Thread.sleep(50);
+                }
+                catch(InterruptedException e) {
+                    //e.printStackTrace();
+                }
+                Packet5Message packet5 = new Packet5Message("Welcome to the chat, " + packet2.name + "!");
+                ph.sendPacket(packet5, newClient, this.socket);
             }
         }
         else if(type == PacketType.LEAVE) {
             if(client != null) {
                 Packet2Leave packet2 = new Packet2Leave(data);
                 client.stopKeepAliveThread();
+                client.stopKeepAliveSendThread();
                 clients.remove(client);
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") has left the chat. (Client quit)");
                 Packet5Message packet3 = new Packet5Message(packet2.name + " has left the chat. (Client quit)");

@@ -20,5 +20,6 @@ public enum PacketType {
     KICK,
     MESSAGE,
     NAME_CHANGE,
+    HANDSHAKE,
     UNKNOWN
 }

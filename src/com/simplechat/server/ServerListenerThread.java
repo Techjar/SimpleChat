@@ -42,7 +42,8 @@ public class ServerListenerThread extends Thread {
             System.exit(0);
         }
 
-        System.out.println("Listener started on port " + port + ". Now accepting packets.");
+        System.out.println("Listener started on port " + port + ".");
+        System.out.println("Now accepting UDP packets...");
         Runtime.getRuntime().addShutdownHook(new ServerShutdownThread(getClients(), socket));
         while(true) {
             try {

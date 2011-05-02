@@ -101,6 +101,7 @@ public class PacketHandler {
             case 4: return PacketType.KICK;
             case 5: return PacketType.MESSAGE;
             case 6: return PacketType.NAME_CHANGE;
+            case 7: return PacketType.HANDSHAKE;
             default: return PacketType.UNKNOWN;
         }
     }

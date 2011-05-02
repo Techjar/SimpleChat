@@ -34,7 +34,8 @@ public class ClientKeepAliveThread extends Thread {
                 ph.sendClientPacket(packet, server.getIP(), server.getPort(), this.server.getSocket());
             }
             catch(InterruptedException e) {
-                //System.err.println("ClientKeepAliveThread was interrupted.");
+                System.err.println("ClientKeepAliveThread was interrupted.");
+                System.exit(0);
             }
         }
     }
