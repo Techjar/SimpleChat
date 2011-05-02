@@ -46,13 +46,13 @@ public class CommandHandler {
             ph.sendPacket(new Packet5Message("/list - Lists users in the chat."), client, this.socket);
             ph.sendPacket(new Packet5Message("/me <message> - Makes you do an action."), client, this.socket);
             ph.sendPacket(new Packet5Message("/nick <name> - Changes your name!"), client, this.socket);
-            ph.sendPacket(new Packet5Message("/op <name> - Ops a user."), client, this.socket);
-            ph.sendPacket(new Packet5Message("/deop <name> - De-ops a user."), client, this.socket);
-            ph.sendPacket(new Packet5Message("/kick <name> - Kicks a user."), client, this.socket);
-            ph.sendPacket(new Packet5Message("/ban <name> - Bans a user."), client, this.socket);
-            ph.sendPacket(new Packet5Message("/unban <name> - Unbans a user."), client, this.socket);
-            ph.sendPacket(new Packet5Message("/banip <ip> - Bans an IP."), client, this.socket);
-            ph.sendPacket(new Packet5Message("/unbanip <ip> - Unbans an IP."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/op <name> - Ops a user. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/deop <name> - De-ops a user. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/kick <name> - Kicks a user. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/ban <name> - Bans a user. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/unban <name> - Unbans a user. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/banip <ip> - Bans an IP. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/unbanip <ip> - Unbans an IP. (Op-only)"), client, this.socket);
         }
         else if(cmd.equalsIgnoreCase("quit")) {
             String msg = "";
