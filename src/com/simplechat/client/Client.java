@@ -44,6 +44,7 @@ public class Client {
 
     public void start() {
         try {
+            System.out.println("Note: Messages are limited to 120 characters!");
             ConsoleReader cr = new ConsoleReader();
             PacketHandler ph = new PacketHandler();
             Packet1Join packet = new Packet1Join(this.name.getName());

@@ -20,8 +20,8 @@ public class Packet3Chat extends Packet {
 
 
     public Packet3Chat(String name, String msg) {
-        byte[] name2 = name.getBytes();
-        byte[] msg2 = msg.getBytes();
+        byte[] name2 = name.substring(0, Math.min(name.length(), 120)).getBytes();
+        byte[] msg2 = msg.substring(0, Math.min(msg.length(), 120)).getBytes();
 
         int i = 0;
         this.data[i++] = (byte)3;

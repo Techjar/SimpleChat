@@ -19,7 +19,7 @@ public class Packet4Kick extends Packet {
 
 
     public Packet4Kick(String msg) {
-        byte[] msg2 = msg.getBytes();
+        byte[] msg2 = msg.substring(0, Math.min(msg.length(), 120)).getBytes();
 
         int i = 0;
         this.data[i++] = (byte)4;

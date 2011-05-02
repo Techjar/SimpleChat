@@ -19,7 +19,7 @@ public class Packet1Join extends Packet {
 
 
     public Packet1Join(String name) {
-        byte[] name2 = name.getBytes();
+        byte[] name2 = name.substring(0, Math.min(name.length(), 120)).getBytes();
 
         int i = 0;
         this.data[i++] = (byte)1;

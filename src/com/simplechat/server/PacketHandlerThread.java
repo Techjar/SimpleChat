@@ -100,11 +100,10 @@ public class PacketHandlerThread extends Thread {
             }
         }
         else {
-            String datastr = "";
-            for(int i = 0; i < data.length; i++) datastr += data[i];
-            System.out.println(packet.getAddress().getHostAddress() + " sent a malformed packet.");
-            System.out.println(data.toString());
-            System.out.println(datastr);
+            /*String datastr = "";
+            for(int i = 0; i < data.length; i++) datastr += data[i];*/
+            System.out.println(packet.getAddress().getHostAddress() + " sent a malformed packet; " + data);
+            //System.out.println(datastr);
         }
     }
 

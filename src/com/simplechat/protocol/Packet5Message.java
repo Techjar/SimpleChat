@@ -19,7 +19,7 @@ public class Packet5Message extends Packet {
 
 
     public Packet5Message(String msg) {
-        byte[] msg2 = msg.getBytes();
+        byte[] msg2 = msg.substring(0, Math.min(msg.length(), 120)).getBytes();
 
         int i = 0;
         this.data[i++] = (byte)5;
