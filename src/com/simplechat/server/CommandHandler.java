@@ -76,6 +76,18 @@ public class CommandHandler {
             Packet5Message packet = new Packet5Message("Pong!");
             ph.sendPacket(packet, client, this.socket);
         }
+        else if(cmd.equalsIgnoreCase("kill")) {
+            if(args.length < 1) {
+                Packet5Message packet = new Packet5Message("Not enough paramters.");
+                ph.sendPacket(packet, client, this.socket);
+            }
+            else {
+                Packet5Message packet = new Packet5Message(client.getUsername() + " was kicked for killing " + args[0] + ". " + args[0] + " will be missed. :(");
+                Packet4Kick packet2 = new Packet4Kick("YOU MURDERER, YOU KILLED " + args[0].toUpperCase() + "! GET OUT!!!!!");
+                ph.sendAllExcludePacket(packet, clients, client, this.socket);
+                ph.sendPacket(packet2, client, this.socket);
+            }
+        }
         else if(cmd.equalsIgnoreCase("whois")) {
             if(args.length < 1) {
                 Packet5Message packet = new Packet5Message("Not enough paramters.");
