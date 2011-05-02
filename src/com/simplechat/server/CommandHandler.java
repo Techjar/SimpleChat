@@ -86,6 +86,8 @@ public class CommandHandler {
                 Packet4Kick packet2 = new Packet4Kick("YOU MURDERER, YOU KILLED " + args[0].toUpperCase() + "! GET OUT!!!!!");
                 ph.sendAllExcludePacket(packet, clients, client, this.socket);
                 ph.sendPacket(packet2, client, this.socket);
+                client.stopKeepAliveThread();
+                clients.remove(client);
             }
         }
         else if(cmd.equalsIgnoreCase("whois")) {
