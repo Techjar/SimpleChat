@@ -1,0 +1,21 @@
+# Eclipse stuff
+/.classpath
+/.project
+/.settings
+
+# netbeans
+/nbproject
+
+# don't want this
+/build.xml
+
+# various other potential build files
+/build
+/test
+/bin
+/manifest.mf
+.*.txt
+.*.log
+
+# Mac filesystem dust
+/.DS_Store
