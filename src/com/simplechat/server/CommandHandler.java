@@ -97,13 +97,18 @@ public class CommandHandler {
             }
             else {
                 try {
+                    System.out.println("Nuke started!");
                     Packet5Message packet = new Packet5Message("IT'S NUKE TIME OH BOY!!!!!");
                     ph.sendAllPacket(packet, clients, this.socket);
                     packet = new Packet5Message("NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE");
-                    while(true) {
+                    for(int i = 0; i < 1000; i++) {
+                        if((i % 100) == 0) System.out.println("Packets left: " + (1000 - i));
                         ph.sendAllPacket(packet, clients, this.socket);
                         Thread.sleep(10);
                     }
+                    System.out.println("Nuke ended!");
+                    packet = new Packet5Message("Phew, now that the nuke is over, continue chatting!");
+                    ph.sendAllPacket(packet, clients, this.socket);
                 }
                 catch(InterruptedException e) {
                     System.out.println("Nuke command thread was interrupted.");
