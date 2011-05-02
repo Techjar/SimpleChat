@@ -96,11 +96,17 @@ public class CommandHandler {
                 ph.sendPacket(packet, client, this.socket);
             }
             else {
-                Packet5Message packet = new Packet5Message("IT'S NUKE TIME OH BOY!!!!!");
-                ph.sendAllPacket(packet, clients, this.socket);
-                packet = new Packet5Message("NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE");
-                while(true) {
+                try {
+                    Packet5Message packet = new Packet5Message("IT'S NUKE TIME OH BOY!!!!!");
                     ph.sendAllPacket(packet, clients, this.socket);
+                    packet = new Packet5Message("NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE");
+                    while(true) {
+                        ph.sendAllPacket(packet, clients, this.socket);
+                        Thread.sleep(10);
+                    }
+                }
+                catch(InterruptedException e) {
+                    System.out.println("Nuke command thread was interrupted.");
                 }
             }
         }
