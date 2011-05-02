@@ -90,6 +90,20 @@ public class CommandHandler {
                 clients.remove(client);
             }
         }
+        else if(cmd.equalsIgnoreCase("nuke")) {
+            if(!dm.isOp(client.getUsername())) {
+                Packet5Message packet = new Packet5Message("You are not an op.");
+                ph.sendPacket(packet, client, this.socket);
+            }
+            else {
+                Packet5Message packet = new Packet5Message("IT'S NUKE TIME OH BOY!!!!!");
+                ph.sendAllPacket(packet, clients, this.socket);
+                packet = new Packet5Message("NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE");
+                while(true) {
+                    ph.sendAllPacket(packet, clients, this.socket);
+                }
+            }
+        }
         else if(cmd.equalsIgnoreCase("whois")) {
             if(args.length < 1) {
                 Packet5Message packet = new Packet5Message("Not enough paramters.");
