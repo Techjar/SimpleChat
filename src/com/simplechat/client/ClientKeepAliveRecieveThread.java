@@ -25,19 +25,17 @@ public class ClientKeepAliveRecieveThread extends Thread {
 
     @Override
     public void run() {
-        while(true) {
-            try {
-                Thread.sleep(60000);
-                cr.printString(ConsoleReader.RESET_LINE + "Disconnected from server. (Ping timeout)\n");
-                cr.flushConsole();
-                System.exit(0);
-            }
-            catch(IOException e) {
-                //System.err.println("ClientKeepAliveRecieveThread had an unknown I/O error.");
-            }
-            catch(InterruptedException e) {
-                //System.err.println("ClientKeepAliveRecieveThread was interrupted.");
-            }
+        try {
+            Thread.sleep(60000);
+            cr.printString(ConsoleReader.RESET_LINE + "Disconnected from server. (Ping timeout)\n");
+            cr.flushConsole();
+            System.exit(0);
+        }
+        catch(IOException e) {
+            //System.err.println("ClientKeepAliveRecieveThread had an unknown I/O error.");
+        }
+        catch(InterruptedException e) {
+            //System.err.println("ClientKeepAliveRecieveThread was interrupted.");
         }
     }
 }

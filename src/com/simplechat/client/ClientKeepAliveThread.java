@@ -28,7 +28,7 @@ public class ClientKeepAliveThread extends Thread {
     public void run() {
         while(true) {
             try {
-                Thread.sleep(30000);
+                Thread.sleep(10000);
                 PacketHandler ph = new PacketHandler();
                 Packet0KeepAlive packet = new Packet0KeepAlive(this.name.getName());
                 ph.sendClientPacket(packet, server.getIP(), server.getPort(), this.server.getSocket());

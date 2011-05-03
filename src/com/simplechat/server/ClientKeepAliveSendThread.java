@@ -31,7 +31,7 @@ public class ClientKeepAliveSendThread extends Thread {
     public void run() {
         while(true) {
             try {
-                Thread.sleep(30000);
+                Thread.sleep(10000);
                 PacketHandler ph = new PacketHandler();
                 Packet0KeepAlive packet = new Packet0KeepAlive("Server");
                 ph.sendPacket(packet, client, this.socket);
