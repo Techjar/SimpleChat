@@ -48,7 +48,7 @@ public final class ConsoleLogFormatter extends Formatter {
         }
 
         stringbuilder.append(logrecord.getMessage());
-        stringbuilder.append("\r\n");
+        stringbuilder.append(System.getProperty("line.separator"));
         Throwable throwable = logrecord.getThrown();
 
         if (throwable != null) {

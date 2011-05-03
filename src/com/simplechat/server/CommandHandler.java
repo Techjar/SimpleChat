@@ -17,6 +17,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Map;
 import com.simplechat.protocol.*;
 
 public class CommandHandler {
@@ -34,6 +35,7 @@ public class CommandHandler {
     public void parseCommand(String cmd, String[] args) {
         PacketHandler ph = new PacketHandler();
         DataManager dm = new DataManager();
+        Map<String, String> cfg = new ConfigManager().load();
 
         if(cmd.equalsIgnoreCase("help")) {
             ph.sendPacket(new Packet5Message("/quit [message] - Disconnects you from the server."), client, this.socket);
@@ -116,6 +118,10 @@ public class CommandHandler {
                 Packet5Message packet = new Packet5Message("You are not an op.");
                 ph.sendPacket(packet, client, this.socket);
             }
+            else if(!Boolean.parseBoolean(cfg.get("enable-nuke"))) {
+                Packet5Message packet = new Packet5Message("Nuke command is disabled");
+                ph.sendPacket(packet, client, this.socket);
+            }
             else {
                 try {
                     System.out.println("Nuke started!");
@@ -157,13 +163,14 @@ public class CommandHandler {
             }
         }
         else if(cmd.equalsIgnoreCase("list")) {
-            String msg = "Online Users: ";
-            for(int i = 0; i < clients.size(); i++) {
+            String msg = "";
+            int i = 0;
+            for(i = 0; i < clients.size(); i++) {
                 ClientData client2 = (ClientData)clients.get(i);
                 msg += client2.getUsername() + ", ";
             }
 
-            Packet5Message packet = new Packet5Message(msg.substring(0, Math.min(msg.length() - 2, 500)));
+            Packet5Message packet = new Packet5Message("Online Users (" + i + "): " + msg.substring(0, msg.length() - 2));
             ph.sendPacket(packet, client, this.socket);
         }
         else if(cmd.equalsIgnoreCase("me")) {

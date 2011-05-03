@@ -19,26 +19,35 @@ public class ClientKeepAliveSendThread extends Thread {
     private String name;
     private ClientData client;
     private DatagramSocket socket;
+    private boolean alive;
 
 
     public ClientKeepAliveSendThread(String name, ClientData client, DatagramSocket socket) {
         this.name = name;
         this.client = client;
         this.socket = socket;
+        this.alive = true;
     }
 
     @Override
     public void run() {
-        while(true) {
-            try {
-                Thread.sleep(10000);
-                PacketHandler ph = new PacketHandler();
-                Packet0KeepAlive packet = new Packet0KeepAlive("Server");
-                ph.sendPacket(packet, client, this.socket);
-            }
-            catch(InterruptedException e) {
-                //System.err.println("ClientKeepAliveSendThread was interrupted.");
+        synchronized(this) {
+            while(this.alive) {
+                try {
+                    Thread.sleep(10000);
+                    PacketHandler ph = new PacketHandler();
+                    Packet0KeepAlive packet = new Packet0KeepAlive("Server");
+                    ph.sendPacket(packet, client, this.socket);
+                }
+                catch(InterruptedException e) {
+                    //System.err.println("ClientKeepAliveSendThread was interrupted.");
+                }
             }
         }
+    }
+
+    public synchronized void kill() {
+        this.alive = false;
+        this.interrupt();
     }
 }

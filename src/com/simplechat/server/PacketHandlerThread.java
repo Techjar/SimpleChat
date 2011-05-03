@@ -14,6 +14,7 @@ package com.simplechat.server;
 
 import java.net.*;
 import java.util.List;
+import java.util.Map;
 import com.simplechat.protocol.*;
 
 public class PacketHandlerThread extends Thread {
@@ -34,6 +35,7 @@ public class PacketHandlerThread extends Thread {
         byte[] data = packet.getData();
         PacketHandler ph = new PacketHandler();
         DataManager dm = new DataManager();
+        Map<String, String> cfg = new ConfigManager().load();
         PacketType type = ph.getPacketType(data[0]);
         ClientData client = findClient(getPacketName(data));
 
@@ -56,6 +58,17 @@ public class PacketHandlerThread extends Thread {
                     //e.printStackTrace();
                 }
                 Packet4Kick packet3 = new Packet4Kick("You are banned.");
+                ph.sendPacket(packet3, newClient, this.socket);
+            }
+            else if(getUserCount() >= Integer.parseInt(cfg.get("max-users"))) {
+                System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join but the chat was full.");
+                try {
+                    Thread.sleep(50);
+                }
+                catch(InterruptedException e) {
+                    //e.printStackTrace();
+                }
+                Packet4Kick packet3 = new Packet4Kick("The chat is full.");
                 ph.sendPacket(packet3, newClient, this.socket);
             }
             else if(nameTaken(packet2.name)) {
@@ -149,5 +162,11 @@ public class PacketHandlerThread extends Thread {
             if(client.getUsername().equalsIgnoreCase(name)) return client;
         }
         return null;
+    }
+
+    private int getUserCount() {
+        int i = 0;
+        for(i = 0; i < clients.size(); i++){}
+        return i;
     }
 }

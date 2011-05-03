@@ -81,12 +81,12 @@ public class ClientData {
     }
 
     public void startKeepAliveSendThread() {
-        if(keepAliveSend.isAlive()) keepAliveSend.interrupt();
+        if(keepAliveSend.isAlive()) keepAliveSend.kill();
         this.keepAliveSend = new ClientKeepAliveSendThread(this.name, this, this.socket);
         keepAliveSend.start();
     }
 
     public void stopKeepAliveSendThread() {
-        if(keepAliveSend.isAlive()) keepAliveSend.interrupt();
+        if(keepAliveSend.isAlive()) keepAliveSend.kill();
     }
 }

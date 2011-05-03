@@ -14,7 +14,6 @@ package com.simplechat.client;
 
 import java.net.*;
 import jline.ConsoleReader;
-import com.simplechat.protocol.*;
 
 public class PacketRecieverThread extends Thread {
     private ServerData server;

@@ -26,6 +26,9 @@ public class Server {
     }
 
     public void start() {
+        // Load up the config for no reason!
+        new ConfigManager().load();
+
         // Save these just in case.
         PrintStream stdout = System.out;
         PrintStream stderr = System.err;
@@ -62,6 +65,7 @@ public class Server {
         catch(Throwable e) {
             System.err.println("Failed to create server data files.");
             e.printStackTrace();
+            System.exit(0);
         }
 
 
