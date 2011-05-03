@@ -13,7 +13,7 @@
 package com.simplechat.protocol;
 
 public class Packet5Message extends Packet {
-    private byte[] data = new byte[512];
+    private byte[] data;
     private PacketType type;
     public String msg;
 
