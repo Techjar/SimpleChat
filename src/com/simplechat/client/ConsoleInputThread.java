@@ -38,14 +38,14 @@ public class ConsoleInputThread extends Thread{
             while((line = cr.readLine(this.name.getName() + ": ", null).trim()) != null) {
                 if(!line.isEmpty()) {
                     try {
-                        if(line.length() > 120) {
+                        if(line.length() > Short.MAX_VALUE) {
                             String line2 = "";
                             int linePos = 0;
                             while(linePos < line.length()) {
-                                line2 = line.substring(Math.min(line.length(), linePos), Math.min(line.length(), linePos + 120));
+                                line2 = line.substring(Math.min(line.length(), linePos), Math.min(line.length(), linePos + Short.MAX_VALUE));
                                 Packet3Chat packet = new Packet3Chat(name.getName(), line2);
                                 ph.sendClientPacket(packet, server.getIP(), server.getPort(), this.server.getSocket());
-                                linePos += 120;
+                                linePos += Short.MAX_VALUE;
                                 Thread.sleep(50);
                             }
                         }

@@ -34,9 +34,9 @@ public class PacketRecieverThread extends Thread {
     public void run() {
         DatagramSocket socket = this.server.getSocket();
         this.ctt.start();
+        byte[] buffer = new byte[262144];
         while(true) {
             try {
-                byte[] buffer = new byte[512];
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
                 new PacketHandlerThread(packet, this.server, this.name, this.cr, this.ctt).start();

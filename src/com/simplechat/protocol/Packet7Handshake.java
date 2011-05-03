@@ -13,21 +13,23 @@
 package com.simplechat.protocol;
 
 public class Packet7Handshake extends Packet {
-    private byte[] data = new byte[512];
+    private byte[] data;
     private PacketType type;
     
 
     public Packet7Handshake() {
+        this.data = new byte[3];
+        
         int i = 0;
         this.data[i++] = (byte)7;
         this.data[i++] = (byte)'S';
         this.data[i++] = (byte)'C';
-        this.type = PacketType.KEEP_ALIVE;
+        this.type = PacketType.HANDSHAKE;
     }
 
     public Packet7Handshake(byte[] data) {
         this.data = data;
-        this.type = PacketType.KEEP_ALIVE;
+        this.type = PacketType.HANDSHAKE;
     }
 
     @Override

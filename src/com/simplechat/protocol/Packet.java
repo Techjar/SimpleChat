@@ -13,11 +13,13 @@
 package com.simplechat.protocol;
 
 public class Packet {
-    private byte[] data = new byte[512];
+    private byte[] data;
     private PacketType type;
 
 
     public Packet() {
+        this.data = new byte[3];
+
         int i = 0;
         this.data[i++] = (byte)-1;
         this.data[i++] = (byte)'S';

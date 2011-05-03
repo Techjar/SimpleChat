@@ -45,13 +45,27 @@ public class PacketHandlerThread extends Thread {
             Packet1Join packet2 = new Packet1Join(data);
             ClientData newClient = new ClientData(packet2.name, packet.getAddress(), packet.getPort(), true, this.socket);
 
+            Packet7Handshake packeth = new Packet7Handshake();
+            ph.sendPacket(packeth, newClient, socket);
             if(dm.isBanned(packet2.name) || dm.isIPBanned(packet.getAddress().getHostAddress())) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join but was banned.");
+                try {
+                    Thread.sleep(50);
+                }
+                catch(InterruptedException e) {
+                    //e.printStackTrace();
+                }
                 Packet4Kick packet3 = new Packet4Kick("You are banned.");
                 ph.sendPacket(packet3, newClient, this.socket);
             }
             else if(nameTaken(packet2.name)) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join but the name was taken.");
+                try {
+                    Thread.sleep(50);
+                }
+                catch(InterruptedException e) {
+                    //e.printStackTrace();
+                }
                 Packet4Kick packet3 = new Packet4Kick("Username taken.");
                 ph.sendPacket(packet3, newClient, this.socket);
             }
@@ -60,18 +74,16 @@ public class PacketHandlerThread extends Thread {
                 newClient.startKeepAliveSendThread();
                 clients.add(newClient);
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") has joined the chat.");
-                Packet7Handshake packet3 = new Packet7Handshake();
-                ph.sendPacket(packet3, newClient, socket);
-                Packet5Message packet4 = new Packet5Message(packet2.name + " has joined the chat.");
-                ph.sendAllExcludePacket(packet4, clients, newClient, this.socket);
+                Packet5Message packet3 = new Packet5Message(packet2.name + " has joined the chat.");
+                ph.sendAllExcludePacket(packet3, clients, newClient, this.socket);
                 try {
                     Thread.sleep(50);
                 }
                 catch(InterruptedException e) {
                     //e.printStackTrace();
                 }
-                Packet5Message packet5 = new Packet5Message("Welcome to the chat, " + packet2.name + "!");
-                ph.sendPacket(packet5, newClient, this.socket);
+                Packet5Message packet4 = new Packet5Message("Welcome to the chat, " + packet2.name + "!");
+                ph.sendPacket(packet4, newClient, this.socket);
             }
         }
         else if(type == PacketType.LEAVE) {
@@ -128,7 +140,7 @@ public class PacketHandlerThread extends Thread {
     }
 
     private String getPacketName(byte[] data) {
-        return new String(data, 4, data[3]);
+        return new String(data, 5, ((data[3] << 8) | (data[4] & 0xFF)));
     }
 
     private ClientData findClient(String name) {

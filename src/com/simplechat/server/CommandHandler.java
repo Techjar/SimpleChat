@@ -199,8 +199,14 @@ public class CommandHandler {
                 client.setUsername(args[0]);
                 clients.add(client);
                 Packet6NameChange packet2 = new Packet6NameChange(args[0]);
-                ph.sendAllPacket(packet, clients, this.socket);
                 ph.sendPacket(packet2, client, this.socket);
+                try {
+                    Thread.sleep(50);
+                }
+                catch(InterruptedException e) {
+                    //e.printStackTrace();
+                }
+                ph.sendAllPacket(packet, clients, this.socket);
             }
         }
         else if(cmd.equalsIgnoreCase("op")) {

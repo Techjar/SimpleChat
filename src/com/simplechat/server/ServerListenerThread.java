@@ -45,9 +45,9 @@ public class ServerListenerThread extends Thread {
         System.out.println("Listener started on port " + port + ".");
         System.out.println("Now accepting UDP packets...");
         Runtime.getRuntime().addShutdownHook(new ServerShutdownThread(getClients(), socket));
+        byte[] buffer = new byte[262144];
         while(true) {
             try {
-                byte[] buffer = new byte[512];
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
                 new PacketHandlerThread(packet, getClients(), socket).start();
