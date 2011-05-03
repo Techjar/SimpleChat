@@ -16,9 +16,19 @@ public class MathHelper {
     public MathHelper() {
     }
     
-    public int clamp(int num, int min, int max) {
-        if(num < min) return min;
-        if(num > max) return max;
-        return num;
+    public int clamp(int i, int low, int high) {
+        return Math.max(Math.min(i, high), low);
+    }
+
+    public long clamp(long i, long low, long high) {
+        return Math.max(Math.min(i, high), low);
+    }
+
+    public double clamp(double i, double low, double high) {
+        return Math.max(Math.min(i, high), low);
+    }
+
+    public float clamp(float i, float low, float high) {
+        return Math.max(Math.min(i, high), low);
     }
 }
