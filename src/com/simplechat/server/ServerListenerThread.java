@@ -50,9 +50,9 @@ public class ServerListenerThread extends Thread {
             try {
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
-                new PacketHandlerThread(packet, this.getClients(), socket).start();
+                new PacketHandlerThread(new DatagramPacket(packet.getData().clone(), packet.getData().clone().length, InetAddress.getByName(packet.getAddress().getHostAddress()), packet.getPort()), this.getClients(), socket).start();
             }
-            catch (Throwable e) {
+            catch(Throwable e) {
                 System.err.println("An unknown error occured in the packet acceptor. Program will continue...");
                 e.printStackTrace();
             }

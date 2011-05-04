@@ -51,41 +51,31 @@ public class PacketHandlerThread extends Thread {
             ph.sendPacket(hpacket, newClient, socket);
             if(dm.isBanned(packet2.name) || dm.isIPBanned(packet.getAddress().getHostAddress())) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join but was banned.");
-                try{Thread.sleep(50);}
-                catch(InterruptedException e){}
                 Packet4Kick packet3 = new Packet4Kick("You are banned.");
                 ph.sendPacket(packet3, newClient, this.socket);
             }
             else if(getUserCount() >= Integer.parseInt(cfg.get("max-users"))) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join but the chat was full.");
-                try{Thread.sleep(50);}
-                catch(InterruptedException e){}
                 Packet4Kick packet3 = new Packet4Kick("The chat is full.");
                 ph.sendPacket(packet3, newClient, this.socket);
             }
             else if(nameTaken(packet2.name)) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join but the name was taken.");
-                try{Thread.sleep(50);}
-                catch(InterruptedException e){}
                 Packet4Kick packet3 = new Packet4Kick("Username taken.");
                 ph.sendPacket(packet3, newClient, this.socket);
             }
             else if((Boolean.parseBoolean(cfg.get("require-login")) && packet2.pass.equalsIgnoreCase("")) || (Boolean.parseBoolean(cfg.get("ops-login")) && packet2.pass.equalsIgnoreCase("") && dm.isOp(packet2.name))) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join without a password.");
-                try{Thread.sleep(50);}
-                catch(InterruptedException e){}
                 Packet4Kick packet3 = new Packet4Kick("You must login with a password.");
                 ph.sendPacket(packet3, newClient, this.socket);
             }
             else if(!dm.checkUser(packet2.name, packet2.pass)) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join but the password was invalid.");
-                try{Thread.sleep(50);}
-                catch(InterruptedException e){}
                 Packet4Kick packet3 = new Packet4Kick("Your password was invalid.");
                 ph.sendPacket(packet3, newClient, this.socket);
             }
             else {
-                if(dm.getUser(packet2.name) == null || dm.getUser(packet2.name).equalsIgnoreCase("")) {
+                if((dm.getUser(packet2.name) == null || dm.getUser(packet2.name).equalsIgnoreCase("")) && packet2.pass != null && !packet2.pass.equalsIgnoreCase("")) {
                     dm.addUser(packet2.name, packet2.pass);
                     System.out.println(packet2.name + " has been registered!");
                 }
@@ -95,8 +85,6 @@ public class PacketHandlerThread extends Thread {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") has joined the chat.");
                 Packet5Message packet3 = new Packet5Message(packet2.name + " has joined the chat.");
                 ph.sendAllExcludePacket(packet3, clients, newClient, this.socket);
-                try{Thread.sleep(50);}
-                catch(InterruptedException e){}
                 Packet5Message packet4 = new Packet5Message("Welcome to the chat, " + packet2.name + "!");
                 ph.sendPacket(packet4, newClient, this.socket);
             }

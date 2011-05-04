@@ -32,7 +32,7 @@ public class PacketHandlerThread extends Thread {
         this.cr = cr;
         this.ctt = ctt;
     }
-
+    
     @Override
     public void run() {
         try {
@@ -46,8 +46,7 @@ public class PacketHandlerThread extends Thread {
             }
             else if(type == PacketType.KICK) {
                 Packet4Kick packet2 = new Packet4Kick(data);
-                cr.printString(ConsoleReader.RESET_LINE + packet2.msg + "\n");
-                cr.flushConsole();
+                System.out.println(packet2.msg);
                 System.exit(0);
             }
             else if(type == PacketType.MESSAGE) {
@@ -56,30 +55,14 @@ public class PacketHandlerThread extends Thread {
                     String oldLine = this.name.getName() + ": ";
                     String space = "";
                     for(int i = packet2.msg.length(); i < oldLine.length(); i++) space += " ";
-                    cr.printString(ConsoleReader.RESET_LINE + packet2.msg + space + "\n");
-                    cr.flushConsole();
-                    try {
-                        cr.drawLine();
-                    }
-                    catch (Throwable e) {
-                        cr.getCursorBuffer().clearBuffer();
-                    }
-                    cr.flushConsole();
+                    System.out.println(packet2.msg + space);
                 }
                 catch(StringIndexOutOfBoundsException e) {
                     String msg = "Error: Recieved message was too large.";
                     String oldLine = this.name.getName() + ": ";
                     String space = "";
                     for(int i = msg.length(); i < oldLine.length(); i++) space += " ";
-                    cr.printString(ConsoleReader.RESET_LINE + msg + space + "\n");
-                    cr.flushConsole();
-                    try {
-                        cr.drawLine();
-                    }
-                    catch (Throwable e2) {
-                        cr.getCursorBuffer().clearBuffer();
-                    }
-                    cr.flushConsole();
+                    System.out.println(msg + space);
                 }
             }
             else if(type == PacketType.NAME_CHANGE) {
@@ -101,8 +84,8 @@ public class PacketHandlerThread extends Thread {
                 //System.out.println(data.toString());
             }
         }
-        catch(IOException e) {
-            System.err.println("An unknown I/O error occurred in the packet handler.");
+        catch(Throwable e) {
+            System.err.println("An unknown error occurred in the packet handler.");
             e.printStackTrace();
             System.exit(0);
         }

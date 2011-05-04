@@ -38,29 +38,24 @@ public class CommandHandler {
         Map<String, String> cfg = new ConfigManager().load();
 
         if(cmd.equalsIgnoreCase("help")) {
-            try {
-                ph.sendPacket(new Packet5Message("/quit [message] - Disconnects you from the server."), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/stop - Stops the server. (Op-only)"), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/say <message> - Broadcasts a server message."), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/ping - Ping! Pong!"), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/kill <name> - Kills a user."), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/nuke - NUKE THE CHAT!!!!! (Op-only)"), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/whois <name> - Gets information on a user."), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/list - Lists users in the chat."), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/me <message> - Makes you do an action."), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/nick <name> [password] - Changes your name! Password required if the name has one."), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/password <set|remove> [password] - Allows you to set or remove your password."), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/op <name> - Ops a user. (Op-only)"), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/deop <name> - De-ops a user. (Op-only)"), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/kick <name> - Kicks a user. (Op-only)"), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/ban <name> - Bans a user. (Op-only)"), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/unban <name> - Unbans a user. (Op-only)"), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/banip <ip> - Bans an IP. (Op-only)"), client, this.socket); Thread.sleep(20);
-                ph.sendPacket(new Packet5Message("/unbanip <ip> - Unbans an IP. (Op-only)"), client, this.socket); Thread.sleep(20);
-            }
-            catch(InterruptedException e) {
-                //e.printStackTrace();
-            }
+            ph.sendPacket(new Packet5Message("/quit [message] - Disconnects you from the server."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/stop - Stops the server. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/say <message> - Broadcasts a server message."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/ping - Ping! Pong!"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/kill <name> - Kills a user."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/nuke - NUKE THE CHAT!!!!! (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/whois <name> - Gets information on a user."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/list - Lists users in the chat."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/me <message> - Makes you do an action."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/nick <name> [password] - Changes your name! Password may be required."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/password <set|remove> [password] - Allows you to set or remove your password."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/op <name> - Ops a user. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/deop <name> - De-ops a user. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/kick <name> - Kicks a user. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/ban <name> - Bans a user. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/unban <name> - Unbans a user. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/banip <ip> - Bans an IP. (Op-only)"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/unbanip <ip> - Unbans an IP. (Op-only)"), client, this.socket);
         }
         else if(cmd.equalsIgnoreCase("quit")) {
             String msg = "";
@@ -133,7 +128,7 @@ public class CommandHandler {
                     System.out.println("Nuke started!");
                     Packet5Message packet = new Packet5Message("IT'S NUKE TIME OH BOY!!!!!");
                     ph.sendAllPacket(packet, clients, this.socket);
-                    packet = new Packet5Message("NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE");
+                    packet = new Packet5Message("NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE");
                     for(int i = 0; i < 1000; i++) {
                         if((i % 100) == 0) System.out.println("Packets left: " + (1000 - i));
                         ph.sendAllPacket(packet, clients, this.socket);
@@ -201,19 +196,19 @@ public class CommandHandler {
                 Packet5Message packet = new Packet5Message("That name is taken.");
                 ph.sendPacket(packet, client, this.socket);
             }
-            else if((dm.isOp(args[0]) && Boolean.parseBoolean(cfg.get("ops-login")) && args.length < 2) || (dm.isOp(args[0]) && !dm.isOp(client.getUsername()))) {
+            else if(dm.isOp(args[0]) && ((!dm.isOp(client.getUsername()) && Boolean.parseBoolean(cfg.get("ops-login")) && args.length < 2) || (!dm.isOp(client.getUsername()) && args.length < 2))) {
                 Packet5Message packet = new Packet5Message("You can't /nick to an op's name if you aren't an op or don't have the password.");
                 ph.sendPacket(packet, client, this.socket);
             }
             else {
-                if(dm.getUser(client.getUsername()) != null && !dm.getUser(client.getUsername()).equalsIgnoreCase("")) {
+                if(dm.getUser(args[0]) != null && !dm.getUser(args[0]).equalsIgnoreCase("")) {
                     if(args.length < 2) {
                         Packet5Message packet = new Packet5Message("The password was invalid.");
                         ph.sendPacket(packet, client, this.socket);
                         return;
                     }
                     
-                    if(dm.checkUser(client.getUsername(), args[1])) {
+                    if(dm.checkUser(args[0], args[1])) {
                         Packet8PasswordChange packet3 = new Packet8PasswordChange(args[1]);
                         ph.sendPacket(packet3, client, this.socket);
                     }
@@ -250,8 +245,6 @@ public class CommandHandler {
                     dm.setUser(client.getUsername(), args[1]);
                     Packet8PasswordChange packet2 = new Packet8PasswordChange(args[1]);
                     ph.sendPacket(packet2, client, this.socket);
-                    try{Thread.sleep(50);}
-                    catch(InterruptedException e){}
                     Packet5Message packet = new Packet5Message("Your password has been set.");
                     ph.sendPacket(packet, client, this.socket);
                 }
@@ -261,8 +254,6 @@ public class CommandHandler {
                 dm.removeUser(client.getUsername());
                 Packet8PasswordChange packet2 = new Packet8PasswordChange(" ");
                 ph.sendPacket(packet2, client, this.socket);
-                try{Thread.sleep(50);}
-                catch(InterruptedException e){}
                 Packet5Message packet = new Packet5Message("Your password has been removed.");
                 ph.sendPacket(packet, client, this.socket);
             }

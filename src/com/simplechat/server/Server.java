@@ -15,6 +15,7 @@ package com.simplechat.server;
 import java.io.*;
 import java.util.logging.*;
 import com.simplechat.util.LoggingOutputStream;
+import com.simplechat.util.FileLogFormatter;
 import com.simplechat.util.ConsoleLogFormatter;
 
 public class Server {
@@ -35,7 +36,7 @@ public class Server {
         try {
             LoggingOutputStream los;
             Handler logFile = new FileHandler("server.log", true);
-            logFile.setFormatter(new ConsoleLogFormatter());
+            logFile.setFormatter(new FileLogFormatter());
             Handler logConsole = new ConsoleHandler();
             logConsole.setFormatter(new ConsoleLogFormatter());
 

@@ -12,31 +12,19 @@
 
 package com.simplechat.client;
 
-import java.io.IOException;
-import jline.ConsoleReader;
-
 public class ConnectTimeoutThread extends Thread {
-    private ConsoleReader cr;
-
-
-    public ConnectTimeoutThread(ConsoleReader cr) {
-        this.cr = cr;
+    public ConnectTimeoutThread() {
     }
 
     @Override
     public void run() {
         try {
             Thread.sleep(10000);
-            cr.printString("Could not connect to server.\n");
-            cr.flushConsole();
+            System.out.println("Could not connect to server.");
             System.exit(0);
         }
         catch(InterruptedException e) {
             //System.out.println("ConnectTimeoutThread was interrupted.");
-        }
-        catch(IOException e) {
-            System.out.println("Could not connect to server.");
-            System.exit(0);
         }
     }
 }

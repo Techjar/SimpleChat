@@ -43,7 +43,7 @@ public class LoggingOutputStream extends ByteArrayOutputStream {
      * @throws java.io.IOException in case of error
      */
     @Override
-    public void flush() throws IOException {
+    public synchronized void flush() throws IOException {
         String record;
         synchronized(this) {
             super.flush();
