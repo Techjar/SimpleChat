@@ -33,15 +33,21 @@ public class ConfigManager {
             Yaml yaml = new Yaml(dumper);
             File file = new File("config.yml");
             if(!file.exists()) {
-                file.createNewFile();
-                FileWriter fw = new FileWriter("config.yml");
+                // Setup the default values...
                 cfg.put("max-users", "50");
                 cfg.put("enable-nuke", "true");
+                cfg.put("require-login", "false");
+                cfg.put("ops-login", "false");
+
+                file.createNewFile();
+                FileWriter fw = new FileWriter("config.yml");
                 yaml.dump(cfg, fw);
                 fw.close();
             }
             else {
-                cfg = (Map)yaml.load(new FileReader("config.yml"));
+                FileReader fr = new FileReader("config.yml");
+                cfg = (Map)yaml.load(fr);
+                fr.close();
             }
             return cfg;
         }

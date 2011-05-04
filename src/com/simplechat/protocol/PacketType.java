@@ -21,5 +21,6 @@ public enum PacketType {
     MESSAGE,
     NAME_CHANGE,
     HANDSHAKE,
+    PASSWORD_CHANGE,
     UNKNOWN
 }

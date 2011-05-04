@@ -61,6 +61,7 @@ public class Server {
             new File("ops.txt").createNewFile();
             new File("bans.txt").createNewFile();
             new File("ipbans.txt").createNewFile();
+            new File("users.txt").createNewFile();
         }
         catch(Throwable e) {
             System.err.println("Failed to create server data files.");

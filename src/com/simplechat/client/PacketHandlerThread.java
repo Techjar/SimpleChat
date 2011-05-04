@@ -92,6 +92,10 @@ public class PacketHandlerThread extends Thread {
                 new ClientKeepAliveThread(this.server, this.name).start();
                 new ConsoleInputThread(this.server, this.name, this.cr).start();
             }
+            else if(type == PacketType.PASSWORD_CHANGE) {
+                Packet8PasswordChange packet2 = new Packet8PasswordChange(data);
+                this.name.setPass(packet2.pass);
+            }
             else {
                 //System.out.println("Malformed packet recieved.");
                 //System.out.println(data.toString());

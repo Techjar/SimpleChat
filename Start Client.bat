@@ -9,5 +9,6 @@ if "%PORT%"=="" goto port
 :name
 set /P NAME=Enter username: %=%
 if "%NAME%"=="" goto name
-java -Xms64M -Xmx256M -jar dist/SimpleChat.jar client %IP% %PORT% %NAME%
+set /P PASS=Enter password (optional): %=%
+java -Xms64M -Xmx256M -jar dist/SimpleChat.jar client %IP% %PORT% %NAME% %PASS%
 pause

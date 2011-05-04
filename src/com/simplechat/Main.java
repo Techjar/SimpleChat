@@ -26,14 +26,31 @@ public class Main {
                 System.out.println("You must specify an IP, port and username.");
                 System.exit(0);
             }
-            try {
-                Client client = new Client(args[1], Integer.parseInt(args[2]), args[3]);
-                client.start();
+            else if(args.length < 5) {
+                try {
+                    Client client = new Client(args[1], Integer.parseInt(args[2]), args[3], "");
+                    System.out.println("Connecting to server...");
+                    client.start();
+                }
+                catch(NumberFormatException e) {
+                    System.out.println("Invalid port number, using port 6000.");
+                    Client client = new Client(args[1], 6000, args[3], "");
+                    System.out.println("Connecting to server...");
+                    client.start();
+                }
             }
-            catch(NumberFormatException e) {
-                System.out.println("Invalid port number, using port 6000.");
-                Client client = new Client(args[1], 6000, args[3]);
-                client.start();
+            else {
+                try {
+                    Client client = new Client(args[1], Integer.parseInt(args[2]), args[3], args[4]);
+                    System.out.println("Connecting to server...");
+                    client.start();
+                }
+                catch(NumberFormatException e) {
+                    System.out.println("Invalid port number, using port 6000.");
+                    Client client = new Client(args[1], 6000, args[3], args[4]);
+                    System.out.println("Connecting to server...");
+                    client.start();
+                }
             }
         }
         else if(args[0].equalsIgnoreCase("server")) {

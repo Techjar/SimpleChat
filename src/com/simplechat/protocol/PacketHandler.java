@@ -102,6 +102,7 @@ public class PacketHandler {
             case 5: return PacketType.MESSAGE;
             case 6: return PacketType.NAME_CHANGE;
             case 7: return PacketType.HANDSHAKE;
+            case 8: return PacketType.PASSWORD_CHANGE;
             default: return PacketType.UNKNOWN;
         }
     }

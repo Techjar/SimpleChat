@@ -16,12 +16,14 @@ import jline.ConsoleReader;
 
 public class NameData {
     private String name;
+    private String pass;
     private ConsoleReader cr;
     private ClientKeepAliveRecieveThread keepAlive;
 
     
-    public NameData(String name, ConsoleReader cr) {
+    public NameData(String name, String pass, ConsoleReader cr) {
         this.name = name;
+        this.pass = pass;
         this.cr = cr;
         this.keepAlive = new ClientKeepAliveRecieveThread(this.cr);
     }
@@ -32,6 +34,14 @@ public class NameData {
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     public ConsoleReader getCr() {

@@ -15,17 +15,22 @@ package com.simplechat.server;
 import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import com.simplechat.util.MD5Helper;
 
 public class DataManager {
     private List ops = new ArrayList();
     private List bans = new ArrayList();
     private List ipbans = new ArrayList();
+    private Map<String, String> users = new HashMap<String, String>();
 
 
     public DataManager() {
         this.loadOps();
         this.loadBans();
         this.loadIPBans();
+        this.loadUsers();
     }
 
     private void loadOps() {
@@ -103,6 +108,34 @@ public class DataManager {
         }
     }
 
+    private void loadUsers() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("users.txt"));
+            String line = "";
+            while((line = br.readLine()) != null) {
+                String[] user = line.split(":");
+                users.put(user[0], user[1]);
+            }
+            br.close();
+        }
+        catch(Exception e) {
+            System.out.println("Failed to read users.txt data.");
+            e.printStackTrace();
+        }
+    }
+
+    private void saveUsers() {
+        try {
+            PrintWriter pw = new PrintWriter(new FileWriter("users.txt", false));
+            for(Map.Entry<String, String> entry : users.entrySet()) pw.println(entry.getKey() + ":" + entry.getValue());
+            pw.close();
+        }
+        catch(Exception e) {
+            System.out.println("Failed to save users.txt data.");
+            e.printStackTrace();
+        }
+    }
+
 
     public boolean isOp(String name) {
         return ops.contains(name.trim().toLowerCase());
@@ -144,5 +177,29 @@ public class DataManager {
     public void removeIPBan(String ip) {
         ipbans.remove(ip.trim().toLowerCase());
         this.saveIPBans();
+    }
+
+    public String getUser(String user) {
+        return users.get(user.trim().toLowerCase());
+    }
+
+    public void setUser(String user, String pass) {
+        users.remove(user.trim().toLowerCase());
+        users.put(user.trim().toLowerCase(), new MD5Helper().md5Checksum(pass));
+        this.saveUsers();
+    }
+
+    public boolean checkUser(String user, String pass) {
+        return new MD5Helper().md5Checksum(pass).equalsIgnoreCase(users.get(user.trim().toLowerCase())) || users.get(user.trim().toLowerCase()) == null || users.get(user.trim().toLowerCase()).equalsIgnoreCase("");
+    }
+
+    public void addUser(String user, String pass) {
+        users.put(user.trim().toLowerCase(), new MD5Helper().md5Checksum(pass));
+        this.saveUsers();
+    }
+
+    public void removeUser(String user) {
+        users.remove(user.trim().toLowerCase());
+        this.saveUsers();
     }
 }

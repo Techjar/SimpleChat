@@ -21,6 +21,7 @@ import com.simplechat.server.ClientKeepAliveSendThread;
 
 public class ClientData {
     private String name;
+    private String pass;
     private InetAddress ip;
     private int port;
     private boolean activeState;
@@ -28,8 +29,9 @@ public class ClientData {
     private ClientKeepAliveSendThread keepAliveSend;
     private DatagramSocket socket;
 
-    public ClientData(String name, InetAddress ip, int port, boolean activeState, DatagramSocket socket) {
+    public ClientData(String name, String pass, InetAddress ip, int port, boolean activeState, DatagramSocket socket) {
         this.name = name;
+        this.pass = pass;
         this.ip = ip;
         this.port = port;
         this.activeState = activeState;
@@ -44,6 +46,14 @@ public class ClientData {
 
     public void setUsername(String name) {
         this.name = name;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     public InetAddress getIP() {
