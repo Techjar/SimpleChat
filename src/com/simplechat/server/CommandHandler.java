@@ -128,6 +128,7 @@ public class CommandHandler {
                     System.out.println("Nuke started!");
                     Packet5Message packet = new Packet5Message("IT'S NUKE TIME OH BOY!!!!!");
                     ph.sendAllPacket(packet, clients, this.socket);
+                    Thread.sleep(1000);
                     packet = new Packet5Message("NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE NUKE");
                     for(int i = 0; i < 1000; i++) {
                         if((i % 100) == 0) System.out.println("Packets left: " + (1000 - i));
