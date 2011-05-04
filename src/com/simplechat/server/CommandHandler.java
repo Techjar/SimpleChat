@@ -246,6 +246,7 @@ public class CommandHandler {
                     ph.sendPacket(packet, client, this.socket);
                 }
                 else {
+                    client.setPass(args[1]);
                     dm.setUser(client.getUsername(), args[1]);
                     Packet8PasswordChange packet2 = new Packet8PasswordChange(args[1]);
                     ph.sendPacket(packet2, client, this.socket);
@@ -256,6 +257,7 @@ public class CommandHandler {
                 }
             }
             else if(args[0].equalsIgnoreCase("remove")) {
+                client.setPass("");
                 dm.removeUser(client.getUsername());
                 Packet8PasswordChange packet2 = new Packet8PasswordChange(" ");
                 ph.sendPacket(packet2, client, this.socket);
