@@ -47,8 +47,8 @@ public class CommandHandler {
             ph.sendPacket(new Packet5Message("/whois <name> - Gets information on a user."), client, this.socket);
             ph.sendPacket(new Packet5Message("/list - Lists users in the chat."), client, this.socket);
             ph.sendPacket(new Packet5Message("/me <message> - Makes you do an action."), client, this.socket);
-            ph.sendPacket(new Packet5Message("/nick <name> [password] - Changes your name! Password may be required."), client, this.socket);
-            ph.sendPacket(new Packet5Message("/password <set|remove> [password] - Allows you to set or remove your password."), client, this.socket);
+            ph.sendPacket(new Packet5Message("/nick <name> [password] - Changes your name!"), client, this.socket);
+            ph.sendPacket(new Packet5Message("/password <set|remove> [password] - Set or remove your password."), client, this.socket);
             ph.sendPacket(new Packet5Message("/op <name> - Ops a user. (Op-only)"), client, this.socket);
             ph.sendPacket(new Packet5Message("/deop <name> - De-ops a user. (Op-only)"), client, this.socket);
             ph.sendPacket(new Packet5Message("/kick <name> - Kicks a user. (Op-only)"), client, this.socket);
