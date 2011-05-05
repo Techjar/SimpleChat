@@ -13,7 +13,6 @@
 package com.simplechat.client;
 
 import java.net.*;
-import java.io.IOException;
 import jline.ConsoleReader;
 import com.simplechat.protocol.*;
 
