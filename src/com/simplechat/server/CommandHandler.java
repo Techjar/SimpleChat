@@ -180,7 +180,7 @@ public class CommandHandler {
                 ph.sendPacket(new Packet5Message("You can't /nick to an op's name if you aren't an op or don't have the password."), client, this.socket);
             }
             else {
-                if(dm.getUser(args[0]) != null && !dm.getUser(args[0]).equalsIgnoreCase("")) {
+                if(dm.getUser(args[0]) != null && !dm.getUser(args[0]).equalsIgnoreCase("") && !dm.isOp(client.getUsername())) {
                     if(args.length < 2) {
                         ph.sendPacket(new Packet5Message("The password was invalid."), client, this.socket);
                         return;
