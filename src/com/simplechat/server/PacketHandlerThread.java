@@ -21,20 +21,21 @@ public class PacketHandlerThread extends Thread {
     private DatagramPacket packet;
     private List clients;
     private DatagramSocket socket;
+    private DataManager dm;
 
 
 
-    public PacketHandlerThread(DatagramPacket packet, List clients, DatagramSocket socket) {
+    public PacketHandlerThread(DatagramPacket packet, List clients, DatagramSocket socket, DataManager dm) {
         this.packet = packet;
         this.clients = clients;
         this.socket = socket;
+        this.dm = dm;
     }
 
     @Override
     public void run() {
         byte[] data = packet.getData();
         PacketHandler ph = new PacketHandler();
-        DataManager dm = new DataManager();
         Map<String, String> cfg = new ConfigManager().load();
         PacketType type = ph.getPacketType(data[0]);
         ClientData client = findClient(getPacketName(data));
@@ -77,6 +78,7 @@ public class PacketHandlerThread extends Thread {
                 newClient.startKeepAliveSendThread();
                 clients.add(newClient);
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") has joined the chat.");
+                System.out.println("There are " + this.getUserCount() + " users on the server.");
                 ph.sendAllExcludePacket(new Packet5Message(packet2.name + " has joined the chat."), clients, newClient, this.socket);
                 ph.sendPacket(new Packet5Message("Welcome to the chat, " + packet2.name + "!"), newClient, this.socket);
             }
@@ -107,7 +109,7 @@ public class PacketHandlerThread extends Thread {
                         args = new String[0];
                     }
                     System.out.println(client.getUsername() + " issued command: " + msg.substring(1));
-                    CommandHandler ch = new CommandHandler(client, clients, this.socket);
+                    CommandHandler ch = new CommandHandler(client, clients, this.socket, this.dm);
                     ch.parseCommand(cmd, args);
                 }
                 else {

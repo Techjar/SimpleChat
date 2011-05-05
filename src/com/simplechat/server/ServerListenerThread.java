@@ -41,16 +41,16 @@ public class ServerListenerThread extends Thread {
             System.err.println("Could not start listener on port " + port + ".");
             System.exit(0);
         }
-
         System.out.println("Listener started on port " + port + ".");
         System.out.println("Now accepting UDP packets...");
         Runtime.getRuntime().addShutdownHook(new ServerShutdownThread(getClients(), socket));
+        DataManager dm = new DataManager();
         byte[] buffer = new byte[262144];
         while(true) {
             try {
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
-                new PacketHandlerThread(new DatagramPacket(packet.getData().clone(), packet.getData().clone().length, InetAddress.getByName(packet.getAddress().getHostAddress()), packet.getPort()), this.getClients(), socket).start();
+                new PacketHandlerThread(new DatagramPacket(packet.getData().clone(), packet.getData().clone().length, InetAddress.getByName(packet.getAddress().getHostAddress()), packet.getPort()), this.getClients(), socket, dm).start();
             }
             catch(Throwable e) {
                 System.err.println("An unknown error occured in the packet acceptor. Program will continue...");

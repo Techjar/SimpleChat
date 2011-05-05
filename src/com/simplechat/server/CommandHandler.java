@@ -24,17 +24,18 @@ public class CommandHandler {
     private ClientData client;
     private List clients;
     private DatagramSocket socket;
+    private DataManager dm;
 
 
-    public CommandHandler(ClientData client, List clients, DatagramSocket socket) {
+    public CommandHandler(ClientData client, List clients, DatagramSocket socket, DataManager dm) {
         this.client = client;
         this.clients = clients;
         this.socket = socket;
+        this.dm = dm;
     }
 
     public void parseCommand(String cmd, String[] args) {
         PacketHandler ph = new PacketHandler();
-        DataManager dm = new DataManager();
         Map<String, String> cfg = new ConfigManager().load();
 
         if(cmd.equalsIgnoreCase("help")) {
