@@ -361,10 +361,8 @@ public class CommandHandler {
                 }
                 else {
                     InetAddress ip = null;
-                    InetAddress localip = null;
                     try {
                         ip = InetAddress.getByName(args[0]);
-                        localip = InetAddress.getLocalHost();
                     }
                     catch(UnknownHostException e) {
                         //System.err.println("An invalid IP was entered.");
@@ -373,7 +371,7 @@ public class CommandHandler {
                     if(ip == null) {
                         ph.sendPacket(new Packet5Message("The IP is invalid."), client, this.socket);
                     }
-                    else if(ip.getHostAddress().equalsIgnoreCase(localip.getHostAddress())) {
+                    else if(ip.getHostAddress().equalsIgnoreCase("127.0.0.1")) {
                         ph.sendPacket(new Packet5Message("You can not ban the local IP."), client, this.socket);
                     }
                     else if(ip.getHostAddress().equalsIgnoreCase(client.getIP().getHostAddress())) {
