@@ -14,7 +14,7 @@ package com.simplechat.client;
 
 import com.simplechat.protocol.*;
 
-public class ClientShutdownThread extends Thread {
+public class ClientShutdownThread extends Thread { // This class isn't actually used now, but it's left in for later use.
     private ServerData server;
     private NameData name;
 
@@ -27,7 +27,6 @@ public class ClientShutdownThread extends Thread {
     @Override
     public void run() {
         PacketHandler ph = new PacketHandler();
-        Packet2Leave packet = new Packet2Leave(this.name.getName());
-        ph.sendClientPacket(packet, this.server.getIP(), this.server.getPort(), this.server.getSocket());
+        ph.sendClientPacket(new Packet2Leave(this.name.getName()), this.server.getIP(), this.server.getPort(), this.server.getSocket());
     }
 }

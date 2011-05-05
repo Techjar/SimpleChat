@@ -47,32 +47,26 @@ public class PacketHandlerThread extends Thread {
             Packet1Join packet2 = new Packet1Join(data);
             ClientData newClient = new ClientData(packet2.name, packet2.pass, packet.getAddress(), packet.getPort(), true, this.socket);
 
-            Packet7Handshake hpacket = new Packet7Handshake();
-            ph.sendPacket(hpacket, newClient, socket);
+            ph.sendPacket(new Packet7Handshake(), newClient, socket);
             if(dm.isBanned(packet2.name) || dm.isIPBanned(packet.getAddress().getHostAddress())) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join but was banned.");
-                Packet4Kick packet3 = new Packet4Kick("You are banned.");
-                ph.sendPacket(packet3, newClient, this.socket);
+                ph.sendPacket(new Packet4Kick("You are banned."), newClient, this.socket);
             }
             else if(getUserCount() >= Integer.parseInt(cfg.get("max-users"))) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join but the chat was full.");
-                Packet4Kick packet3 = new Packet4Kick("The chat is full.");
-                ph.sendPacket(packet3, newClient, this.socket);
+                ph.sendPacket(new Packet4Kick("The chat is full."), newClient, this.socket);
             }
             else if(nameTaken(packet2.name)) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join but the name was taken.");
-                Packet4Kick packet3 = new Packet4Kick("Username taken.");
-                ph.sendPacket(packet3, newClient, this.socket);
+                ph.sendPacket(new Packet4Kick("Username taken."), newClient, this.socket);
             }
             else if((Boolean.parseBoolean(cfg.get("require-login")) && packet2.pass.equalsIgnoreCase("")) || (Boolean.parseBoolean(cfg.get("ops-login")) && packet2.pass.equalsIgnoreCase("") && dm.isOp(packet2.name))) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join without a password.");
-                Packet4Kick packet3 = new Packet4Kick("You must login with a password.");
-                ph.sendPacket(packet3, newClient, this.socket);
+                ph.sendPacket(new Packet4Kick("You must login with a password."), newClient, this.socket);
             }
             else if(!dm.checkUser(packet2.name, packet2.pass)) {
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") attempted to join but the password was invalid.");
-                Packet4Kick packet3 = new Packet4Kick("Your password was invalid.");
-                ph.sendPacket(packet3, newClient, this.socket);
+                ph.sendPacket(new Packet4Kick("Your password was invalid."), newClient, this.socket);
             }
             else {
                 if((dm.getUser(packet2.name) == null || dm.getUser(packet2.name).equalsIgnoreCase("")) && packet2.pass != null && !packet2.pass.equalsIgnoreCase("")) {
@@ -83,10 +77,8 @@ public class PacketHandlerThread extends Thread {
                 newClient.startKeepAliveSendThread();
                 clients.add(newClient);
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") has joined the chat.");
-                Packet5Message packet3 = new Packet5Message(packet2.name + " has joined the chat.");
-                ph.sendAllExcludePacket(packet3, clients, newClient, this.socket);
-                Packet5Message packet4 = new Packet5Message("Welcome to the chat, " + packet2.name + "!");
-                ph.sendPacket(packet4, newClient, this.socket);
+                ph.sendAllExcludePacket(new Packet5Message(packet2.name + " has joined the chat."), clients, newClient, this.socket);
+                ph.sendPacket(new Packet5Message("Welcome to the chat, " + packet2.name + "!"), newClient, this.socket);
             }
         }
         else if(type == PacketType.LEAVE) {
@@ -96,8 +88,7 @@ public class PacketHandlerThread extends Thread {
                 client.stopKeepAliveSendThread();
                 clients.remove(client);
                 System.out.println(packet2.name + " (" + packet.getAddress().getHostAddress() + ") has left the chat. (Client quit)");
-                Packet5Message packet3 = new Packet5Message(packet2.name + " has left the chat. (Client quit)");
-                ph.sendAllPacket(packet3, clients, this.socket);
+                ph.sendAllExcludePacket(new Packet5Message(packet2.name + " has left the chat. (Client quit)"), clients, client, this.socket);
             }
         }
         else if(type == PacketType.CHAT) {
@@ -121,8 +112,7 @@ public class PacketHandlerThread extends Thread {
                 }
                 else {
                     System.out.println(packet2.name + " said: " + packet2.msg);
-                    Packet5Message packet3 = new Packet5Message((dm.isOp(packet2.name) ? "[OP] " : "") + packet2.name + ": " + packet2.msg);
-                    ph.sendAllExcludePacket(packet3, clients, client, this.socket);
+                    ph.sendAllExcludePacket(new Packet5Message((dm.isOp(packet2.name) ? "[OP] " : "") + packet2.name + ": " + packet2.msg), clients, client, this.socket);
                 }
             }
         }

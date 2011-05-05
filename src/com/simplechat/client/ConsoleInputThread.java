@@ -32,7 +32,6 @@ public class ConsoleInputThread extends Thread{
     public void run() {
         try {
             PacketHandler ph = new PacketHandler();
-            cr.setBellEnabled(false);
             String line;
 
             while((line = cr.readLine(this.name.getName() + ": ", null).trim()) != null) {
@@ -43,19 +42,17 @@ public class ConsoleInputThread extends Thread{
                             int linePos = 0;
                             while(linePos < line.length()) {
                                 line2 = line.substring(Math.min(line.length(), linePos), Math.min(line.length(), linePos + Short.MAX_VALUE));
-                                Packet3Chat packet = new Packet3Chat(name.getName(), line2);
-                                ph.sendClientPacket(packet, server.getIP(), server.getPort(), this.server.getSocket());
+                                ph.sendClientPacket(new Packet3Chat(name.getName(), line2), server.getIP(), server.getPort(), this.server.getSocket());
                                 linePos += Short.MAX_VALUE;
                                 Thread.sleep(50);
                             }
                         }
                         else {
-                            Packet3Chat packet = new Packet3Chat(name.getName(), line);
-                            ph.sendClientPacket(packet, server.getIP(), server.getPort(), this.server.getSocket());
+                            ph.sendClientPacket(new Packet3Chat(name.getName(), line), server.getIP(), server.getPort(), this.server.getSocket());
                         }
                     }
                     catch(ArrayIndexOutOfBoundsException e) {
-                        cr.printString("Error: Message is too large.\n");
+                        System.err.println("Error: Message is too large.");
                     }
                 }
             }

@@ -33,9 +33,10 @@ public class Client {
     public Client(String ip, int port, String name, String pass) {
         try {
             this.cr = new ConsoleReader();
+            this.cr.setBellEnabled(false);
         }
         catch(IOException e) {
-            System.err.println("Could not create ConsoleReader.");
+            System.err.println("Could not setup ConsoleReader.");
             System.exit(0);
         }
 
@@ -96,8 +97,7 @@ public class Client {
         try {
             //System.out.println("Note: Messages are limited to 32,767 characters!");
             PacketHandler ph = new PacketHandler();
-            Packet1Join packet = new Packet1Join(this.name.getName(), this.name.getPass());
-            ph.sendClientPacket(packet, this.server.getIP(), this.server.getPort(), this.server.getSocket());
+            ph.sendClientPacket(new Packet1Join(this.name.getName(), this.name.getPass()), this.server.getIP(), this.server.getPort(), this.server.getSocket());
             new PacketRecieverThread(this.server, this.name, this.cr, new ConnectTimeoutThread()).start();
             //Runtime.getRuntime().addShutdownHook(new ClientShutdownThread(this.server, this.name)); // This doesn't ever seem to get called.
         }

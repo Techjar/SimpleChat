@@ -61,7 +61,7 @@ public class PacketHandlerThread extends Thread {
                     String oldLine = this.name.getName() + ": ";
                     String space = "";
                     for(int i = msg.length(); i < oldLine.length(); i++) space += " ";
-                    System.out.println(msg + space);
+                    System.err.println(msg + space);
                 }
             }
             else if(type == PacketType.NAME_CHANGE) {

@@ -36,8 +36,7 @@ public class ClientKeepAliveSendThread extends Thread {
                 try {
                     Thread.sleep(10000);
                     PacketHandler ph = new PacketHandler();
-                    Packet0KeepAlive packet = new Packet0KeepAlive("Server");
-                    ph.sendPacket(packet, client, this.socket);
+                    ph.sendPacket(new Packet0KeepAlive("Server"), client, this.socket);
                 }
                 catch(InterruptedException e) {
                     //System.err.println("ClientKeepAliveSendThread was interrupted.");

@@ -37,8 +37,7 @@ public class ClientKeepAliveThread extends Thread {
             clients.remove(client);
             System.out.println(name + " left the chat. (Ping timeout)");
             PacketHandler ph = new PacketHandler();
-            Packet5Message packet = new Packet5Message(name + " left the chat. (Ping timeout)");
-            ph.sendAllPacket(packet, clients, this.socket);
+            ph.sendAllPacket(new Packet5Message(name + " left the chat. (Ping timeout)"), clients, this.socket);
         }
         catch(InterruptedException e) {
             //System.err.println("ClientKeepAliveThread was interrupted.");

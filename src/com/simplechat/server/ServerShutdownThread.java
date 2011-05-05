@@ -29,7 +29,6 @@ public class ServerShutdownThread extends Thread {
     @Override
     public void run() {
         PacketHandler ph = new PacketHandler();
-        Packet4Kick packet = new Packet4Kick("Server shutting down.");
-        ph.sendAllPacket(packet, clients, this.socket);
+        ph.sendAllPacket(new Packet4Kick("Server shutting down."), clients, this.socket);
     }
 }
