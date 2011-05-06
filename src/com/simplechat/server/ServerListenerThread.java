@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 29, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.server;
 
@@ -17,16 +11,28 @@ import java.util.List;
 import java.util.ArrayList;
 import com.simplechat.util.MathHelper;
 
+/**
+ * Thread which listens for packets sent by clients.
+ * @author Techjar
+ */
 public class ServerListenerThread extends Thread {
     private int port;
     private List clients;
 
 
+    /**
+     * Creates a new instance of the server socket listener thread.
+     *
+     * @param port port to listen on
+     */
     public ServerListenerThread(int port) {
         this.port = new MathHelper().clamp(port, 0, 65535);
         this.clients = new ArrayList();
     }
 
+    /**
+     * Runs this thread.
+     */
     @Override
     public void run() {
         DatagramSocket socket = null;

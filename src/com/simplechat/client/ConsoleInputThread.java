@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 30, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.client;
 
@@ -16,18 +10,32 @@ import java.io.IOException;
 import jline.ConsoleReader;
 import com.simplechat.protocol.*;
 
+/**
+ * This thread handles client console input for chatting.
+ * @author Techjar
+ */
 public class ConsoleInputThread extends Thread{
     private ServerData server;
     private NameData name;
     private ConsoleReader cr;
 
-    
+
+    /**
+     * Creates a new instance of the client console input handler thread.
+     *
+     * @param server information about the server
+     * @param name information about the client
+     * @param cr ConsoleReader passed down from Client instance
+     */
     public ConsoleInputThread(ServerData server, NameData name, ConsoleReader cr) {
         this.server = server;
         this.name = name;
         this.cr = cr;
     }
 
+    /**
+     * Runs this thread.
+     */
     @Override
     public void run() {
         try {

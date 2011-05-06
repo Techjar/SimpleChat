@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- * @date May 1, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.util;
 
@@ -19,6 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * An OutputStream that writes contents to a Logger upon each call to flush()
+ * @author Techjar
  */
 public class LoggingOutputStream extends ByteArrayOutputStream {
     private String lineSeparator;
@@ -26,7 +21,8 @@ public class LoggingOutputStream extends ByteArrayOutputStream {
     private Level level;
 
     /**
-     * Constructor
+     * Creates a new instance of the logger
+     *
      * @param logger Logger to write to
      * @param level Level at which to write the log message
      */
@@ -40,6 +36,7 @@ public class LoggingOutputStream extends ByteArrayOutputStream {
     /**
      * upon flush() write the existing contents of the OutputStream
      * to the logger as a log record.
+     * 
      * @throws java.io.IOException in case of error
      */
     @Override

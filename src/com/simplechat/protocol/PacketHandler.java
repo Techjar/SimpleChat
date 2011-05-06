@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 29, 2011
- * @author Techjar
- * @version
- */
-
 
 package com.simplechat.protocol;
 
@@ -16,15 +10,28 @@ import java.net.*;
 import java.io.*;
 import java.util.List;
 
+/**
+ * Handler for sending out packets.
+ * @author Techjar
+ */
 public class PacketHandler {
+    /**
+     * Creates a new instance of the packet handler.
+     */
     public PacketHandler() {
     }
 
+    /**
+     * Sends a packet to a single client.
+     *
+     * @param packet the packet to be sent
+     * @param client client to send the packet to
+     * @param socket socket to use for sending the packet
+     */
     public void sendPacket(Packet packet, ClientData client, DatagramSocket socket) {
         try {
             if(client.getActiveState()) {
-                DatagramPacket dpacket = new DatagramPacket(packet.getData(), packet.getData().length, client.getIP(), client.getPort());
-                socket.send(dpacket);
+                socket.send(new DatagramPacket(packet.getData(), packet.getData().length, client.getIP(), client.getPort()));
             }
         }
         catch (SocketException e) {
@@ -37,13 +44,19 @@ public class PacketHandler {
         }
     }
 
+    /**
+     * Sends a packet to all clients.
+     *
+     * @param packet the packet to be sent
+     * @param clients list of all clients
+     * @param socket socket to use for sending the packet
+     */
     public void sendAllPacket(Packet packet, List clients, DatagramSocket socket) {
         try {
             for(int i = 0; i < clients.size(); i++) {
                 ClientData client = (ClientData)clients.get(i);
                 if(client.getActiveState()) {
-                    DatagramPacket dpacket = new DatagramPacket(packet.getData(), packet.getData().length, client.getIP(), client.getPort());
-                    socket.send(dpacket);
+                    socket.send(new DatagramPacket(packet.getData(), packet.getData().length, client.getIP(), client.getPort()));
                 }
             }
         }
@@ -57,13 +70,20 @@ public class PacketHandler {
         }
     }
 
+    /**
+     * Sends a packet to all clients except the one specified.
+     *
+     * @param packet the packet to be sent
+     * @param clients list of all clients
+     * @param exclude client to not be sent the packet
+     * @param socket socket to use for sending the packet
+     */
     public void sendAllExcludePacket(Packet packet, List clients, ClientData exclude, DatagramSocket socket) {
         try {
             for(int i = 0; i < clients.size(); i++) {
                 ClientData client = (ClientData)clients.get(i);
                 if(client.getActiveState() && client != exclude) {
-                    DatagramPacket dpacket = new DatagramPacket(packet.getData(), packet.getData().length, client.getIP(), client.getPort());
-                    socket.send(dpacket);
+                    socket.send(new DatagramPacket(packet.getData(), packet.getData().length, client.getIP(), client.getPort()));
                 }
             }
         }
@@ -77,10 +97,17 @@ public class PacketHandler {
         }
     }
 
+    /**
+     * Sends a packet from the client to the server.
+     *
+     * @param packet the packet to be sent
+     * @param ip IP address of the server
+     * @param port port of the server
+     * @param socket socket to use for sending the packet
+     */
     public void sendClientPacket(Packet packet, InetAddress ip, int port, DatagramSocket socket) {
         try {
-            DatagramPacket dpacket = new DatagramPacket(packet.getData(), packet.getData().length, ip, port);
-            socket.send(dpacket);
+            socket.send(new DatagramPacket(packet.getData(), packet.getData().length, ip, port));
         }
         catch (SocketException e) {
             System.err.println("Can't send packet through socket.");
@@ -92,6 +119,12 @@ public class PacketHandler {
         }
     }
 
+    /**
+     * Determines the type of a packet from it's ID.
+     *
+     * @param id ID of the packet
+     * @return PacketType Enum which matches the ID
+     */
     public PacketType getPacketType(int id) {
         switch(id) {
             case 0: return PacketType.KEEP_ALIVE;

@@ -3,15 +3,13 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 29, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.protocol;
 
+/**
+ * Holds packet type enums, used for checking packet type.
+ * @author Techjar
+ */
 public enum PacketType {
     KEEP_ALIVE,
     JOIN,

@@ -3,19 +3,23 @@
  * and open the template in the editor.
  */
 
-/**
- * @date May 2, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.client;
 
+/**
+ * Thread for server connection timeout, exits client after 10 seconds unless interrupted.
+ * @author Techjar
+ */
 public class ConnectTimeoutThread extends Thread {
+    /**
+     * Creates a new instance of the connection timeout thread.
+     */
     public ConnectTimeoutThread() {
     }
 
+    /**
+     * Runs this thread.
+     */
     @Override
     public void run() {
         try {

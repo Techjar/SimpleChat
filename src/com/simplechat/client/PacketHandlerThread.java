@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- * @date May 1, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.client;
 
@@ -16,6 +10,10 @@ import java.net.*;
 import jline.ConsoleReader;
 import com.simplechat.protocol.*;
 
+/**
+ * Handler for received packets, threaded for efficiency.
+ * @author Techjar
+ */
 public class PacketHandlerThread extends Thread {
     private DatagramPacket packet;
     private ServerData server;
@@ -24,6 +22,15 @@ public class PacketHandlerThread extends Thread {
     private ConnectTimeoutThread ctt;
 
 
+    /**
+     * Creates a new instance of the received packet handler thread.
+     *
+     * @param packet packet to be processed
+     * @param server information about the server
+     * @param name information about the client
+     * @param cr ConsoleReader passed down from Client instance
+     * @param ctt ConnectTimeoutThread passed down from Client instance
+     */
     public PacketHandlerThread(DatagramPacket packet, ServerData server, NameData name, ConsoleReader cr, ConnectTimeoutThread ctt) {
         this.packet = packet;
         this.server = server;
@@ -31,7 +38,10 @@ public class PacketHandlerThread extends Thread {
         this.cr = cr;
         this.ctt = ctt;
     }
-    
+
+    /**
+     * Runs this thread.
+     */
     @Override
     public void run() {
         try {

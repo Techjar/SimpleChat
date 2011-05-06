@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 29, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.client;
 
@@ -23,13 +17,24 @@ import com.simplechat.util.ClientLogFormatter;
 import com.simplechat.util.FileLogFormatter;
 import com.simplechat.util.TerminalConsoleHandler;
 
+/**
+ * SimpleChat client main class.
+ * @author Techjar
+ */
 public class Client {
-    public ServerData server;
-    public NameData name;
-    public ConsoleReader cr;
+    private ServerData server;
+    private NameData name;
+    private ConsoleReader cr;
 
 
-
+    /**
+     * Creates a new instance of the SimpleChat client. Do not create more than one!
+     *
+     * @param ip IP address of server to connect to
+     * @param port port of server to connect to
+     * @param name username for this client
+     * @param pass password for this client
+     */
     public Client(String ip, int port, String name, String pass) {
         try {
             this.cr = new ConsoleReader();
@@ -93,6 +98,9 @@ public class Client {
         }
     }
 
+    /**
+     * Starts the processing this client instance.
+     */
     public void start() {
         try {
             //System.out.println("Note: Messages are limited to 32,767 characters!");

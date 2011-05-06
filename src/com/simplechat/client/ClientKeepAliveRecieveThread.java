@@ -3,26 +3,23 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 30, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.client;
 
-import java.io.IOException;
-import jline.ConsoleReader;
-
+/**
+ * Thread sleeps for 60 seconds then disconnects the client, unless interrupted.
+ * @author Techjar
+ */
 public class ClientKeepAliveRecieveThread extends Thread {
-    private ConsoleReader cr;
-
-
-    public ClientKeepAliveRecieveThread(ConsoleReader cr) {
-        this.cr = cr;
+    /**
+     * Creates a new instance of the keep alive timeout thread.
+     */
+    public ClientKeepAliveRecieveThread() {
     }
 
+    /**
+     * Runs this thread.
+     */
     @Override
     public void run() {
         try {

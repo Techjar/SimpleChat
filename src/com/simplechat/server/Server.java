@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 29, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.server;
 
@@ -18,14 +12,26 @@ import com.simplechat.util.LoggingOutputStream;
 import com.simplechat.util.FileLogFormatter;
 import com.simplechat.util.ConsoleLogFormatter;
 
+/**
+ * SimpleChat server main class.
+ * @author Techjar
+ */
 public class Server {
     private int port;
 
 
+    /**
+     * Creates a new instance of the SimpleChat server. Do not create more than one!
+     *
+     * @param port port for server to listen on
+     */
     public Server(int port) {
         this.port = port;
     }
 
+    /**
+     * Starts the processing this server instance.
+     */
     public void start() {
         // Load up the config for no reason!
         new ConfigManager().load();

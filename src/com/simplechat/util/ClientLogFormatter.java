@@ -3,15 +3,8 @@
  * and open the template in the editor.
  */
 
-/**
- * @date May 4, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.util;
-
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -19,15 +12,27 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
+/**
+ * Log formatter for the client console.
+ * @author Techjar
+ */
 public class ClientLogFormatter extends Formatter {
     private final SimpleDateFormat date;
 
+
+    /**
+     * Creates a new instance of the log formatter used for the client console.
+     */
     public ClientLogFormatter() {
-        SimpleDateFormat date = null;
-        date = new SimpleDateFormat("hh:mm a");
-        this.date = date;
+        this.date = new SimpleDateFormat("hh:mm a");
     }
 
+    /**
+     * Formats the log record specified.
+     *
+     * @param record log record to format
+     * @return formatted string
+     */
     @Override
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder();

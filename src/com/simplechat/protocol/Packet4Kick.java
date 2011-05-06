@@ -3,21 +3,27 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 29, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.protocol;
 
+/**
+ * Kick packet, sent by server to kick a client.
+ * @author Techjar
+ */
 public class Packet4Kick extends Packet {
     private byte[] data;
     private PacketType type;
+    /**
+     * Kick message.
+     */
     public String msg;
 
 
+    /**
+     * Creates a new instance of this packet.
+     *
+     * @param msg kick message
+     */
     public Packet4Kick(String msg) {
         byte[] msg2 = msg.substring(0, Math.min(msg.length(), Short.MAX_VALUE)).getBytes();
         this.data = new byte[msg2.length + 5];
@@ -33,6 +39,11 @@ public class Packet4Kick extends Packet {
         this.msg = msg;
     }
 
+    /**
+     * Constructs bytes back into a usable packet.
+     *
+     * @param data the bytes
+     */
     public Packet4Kick(byte[] data) {
         int msgL = ((data[3] << 8) | (data[4] & 0xFF));
         this.data = data;

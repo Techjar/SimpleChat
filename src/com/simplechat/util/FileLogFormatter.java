@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- * @date May 1, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.util;
 
@@ -19,16 +13,32 @@ import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+/**
+ * Log formatter for file logging
+ * @author Techjar
+ */
 public final class FileLogFormatter extends Formatter {
+    private SimpleDateFormat date;
 
-    private SimpleDateFormat a = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public FileLogFormatter() {}
+    /**
+     * Creates date new instance of the log formatter used for file logging.
+     */
+    public FileLogFormatter() {
+        this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    }
 
+    /**
+     * Formats the log record specified.
+     *
+     * @param logrecord
+     * @return formatted string
+     */
+    @Override
     public String format(LogRecord logrecord) {
         StringBuilder stringbuilder = new StringBuilder();
 
-        stringbuilder.append(this.a.format(Long.valueOf(logrecord.getMillis())));
+        stringbuilder.append(this.date.format(Long.valueOf(logrecord.getMillis())));
         Level level = logrecord.getLevel();
 
         if (level == Level.FINEST) {

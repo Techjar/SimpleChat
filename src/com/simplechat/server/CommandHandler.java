@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 30, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.server;
 
@@ -20,6 +14,10 @@ import java.util.List;
 import java.util.Map;
 import com.simplechat.protocol.*;
 
+/**
+ * Handles commands sent by clients through chat.
+ * @author Techjar
+ */
 public class CommandHandler {
     private ClientData client;
     private List clients;
@@ -27,6 +25,14 @@ public class CommandHandler {
     private DataManager dm;
 
 
+    /**
+     * Creates a new instance of the server command parser.
+     *
+     * @param client client sending the command
+     * @param clients list of all clients
+     * @param socket socket used by the server
+     * @param dm DataManager instance used by the server
+     */
     public CommandHandler(ClientData client, List clients, DatagramSocket socket, DataManager dm) {
         this.client = client;
         this.clients = clients;
@@ -34,6 +40,12 @@ public class CommandHandler {
         this.dm = dm;
     }
 
+    /**
+     * Parses a command and performs the appropriate action.
+     *
+     * @param cmd name of the command
+     * @param args arguments of the command
+     */
     public void parseCommand(String cmd, String[] args) {
         PacketHandler ph = new PacketHandler();
         Map<String, String> cfg = new ConfigManager().load();

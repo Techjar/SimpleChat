@@ -3,19 +3,22 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 29, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat;
 
 import com.simplechat.client.Client;
 import com.simplechat.server.Server;
 
+/**
+ * Standard main class for application.
+ * @author Techjar
+ */
 public class Main {
+    /**
+     * Standard main method to start application.
+     *
+     * @param args string array of command-line arguments passed to the application
+     */
     public static void main(String[] args) {
         if(args.length < 1) {
             System.out.println("You must pass command-line arguments.");

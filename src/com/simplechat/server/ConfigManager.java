@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- * @date May 3, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.server;
 
@@ -18,10 +12,22 @@ import java.util.HashMap;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.DumperOptions;
 
+/**
+ * Server configuration manager, for reading the configuration file.
+ * @author Techjar
+ */
 public class ConfigManager {
+    /**
+     * Creates a new instance of the server configuration loader.
+     */
     public ConfigManager() {
     }
 
+    /**
+     * Loads the server configuration into a Map and returns it.
+     *
+     * @return map containing server configuration
+     */
     public Map load() {
         Map<String, String> cfg = new HashMap<String, String>();
         try {

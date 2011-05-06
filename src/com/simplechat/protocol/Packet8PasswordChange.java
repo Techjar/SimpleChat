@@ -3,21 +3,27 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 30, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.protocol;
 
+/**
+ * Password change packet, sent by server to change a client's password.
+ * @author Techjar
+ */
 public class Packet8PasswordChange extends Packet {
     private byte[] data;
     private PacketType type;
+    /**
+     * New password for client.
+     */
     public String pass;
 
 
+    /**
+     * Creates a new instance of this packet.
+     *
+     * @param pass new password for client
+     */
     public Packet8PasswordChange(String pass) {
         byte[] pass2 = pass.substring(0, Math.min(pass.length(), Short.MAX_VALUE)).getBytes();
         this.data = new byte[pass2.length + 5];
@@ -33,6 +39,11 @@ public class Packet8PasswordChange extends Packet {
         this.pass = pass;
     }
 
+    /**
+     * Constructs bytes back into a usable packet.
+     *
+     * @param data the bytes
+     */
     public Packet8PasswordChange(byte[] data) {
         int passL = ((data[3] << 8) | (data[4] & 0xFF));
         this.data = data;

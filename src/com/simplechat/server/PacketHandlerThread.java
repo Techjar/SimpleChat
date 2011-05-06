@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 29, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.server;
 
@@ -17,6 +11,10 @@ import java.util.List;
 import java.util.Map;
 import com.simplechat.protocol.*;
 
+/**
+ * Thread which handles packets sent from clients.
+ * @author Techjar
+ */
 public class PacketHandlerThread extends Thread {
     private DatagramPacket packet;
     private List clients;
@@ -24,7 +22,14 @@ public class PacketHandlerThread extends Thread {
     private DataManager dm;
 
 
-
+    /**
+     * Creates a new instance of the server's packet handler thread.
+     *
+     * @param packet packet to process
+     * @param clients list of all clients
+     * @param socket socket used by the server
+     * @param dm DataManager instance used by the server
+     */
     public PacketHandlerThread(DatagramPacket packet, List clients, DatagramSocket socket, DataManager dm) {
         this.packet = packet;
         this.clients = clients;

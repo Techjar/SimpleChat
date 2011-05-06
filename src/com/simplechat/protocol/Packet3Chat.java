@@ -3,22 +3,32 @@
  * and open the template in the editor.
  */
 
-/**
- * @date Apr 29, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.protocol;
 
+/**
+ * Chat packet, sent by client when a message is entered.
+ * @author Techjar
+ */
 public class Packet3Chat extends Packet {
     private byte[] data;
     private PacketType type;
+    /**
+     * Name of the client.
+     */
     public String name;
+    /**
+     * Message sent from client.
+     */
     public String msg;
 
 
+    /**
+     * Creates a new instance of this packet.
+     *
+     * @param name name of client
+     * @param msg message to send
+     */
     public Packet3Chat(String name, String msg) {
         byte[] name2 = name.substring(0, Math.min(name.length(), Short.MAX_VALUE)).getBytes();
         byte[] msg2 = msg.substring(0, Math.min(msg.length(), Short.MAX_VALUE)).getBytes();
@@ -39,6 +49,11 @@ public class Packet3Chat extends Packet {
         this.msg = msg;
     }
 
+    /**
+     * Constructs bytes back into a usable packet.
+     *
+     * @param data the bytes
+     */
     public Packet3Chat(byte[] data) {
         int nameL = ((data[3] << 8) | (data[4] & 0xFF));
         int msgL = ((data[5 + nameL] << 8) | (data[6 + nameL] & 0xFF));

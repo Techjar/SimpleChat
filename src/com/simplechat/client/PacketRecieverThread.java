@@ -3,18 +3,16 @@
  * and open the template in the editor.
  */
 
-/**
- * @date May 1, 2011
- * @author Techjar
- * @version 
- */
-
 
 package com.simplechat.client;
 
 import java.net.*;
 import jline.ConsoleReader;
 
+/**
+ * Thread for receiving packets, passes them to a new PacketHandlerThread.
+ * @author Techjar
+ */
 public class PacketRecieverThread extends Thread {
     private ServerData server;
     private NameData name;
@@ -22,6 +20,14 @@ public class PacketRecieverThread extends Thread {
     private ConnectTimeoutThread ctt;
 
 
+    /**
+     * Creates a new instance of the packet receiver thread.
+     * 
+     * @param server information about the server
+     * @param name information about the client
+     * @param cr ConsoleReader passed down from Client instance
+     * @param ctt ConnectTimeoutThread passed down from Client instance
+     */
     public PacketRecieverThread(ServerData server, NameData name, ConsoleReader cr, ConnectTimeoutThread ctt) {
         this.server = server;
         this.name = name;
@@ -29,6 +35,9 @@ public class PacketRecieverThread extends Thread {
         this.ctt = ctt;
     }
 
+    /**
+     * Runs this thread.
+     */
     @Override
     public void run() {
         DatagramSocket socket = this.server.getSocket();
